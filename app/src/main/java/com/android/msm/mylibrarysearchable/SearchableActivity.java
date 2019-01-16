@@ -163,19 +163,7 @@ MyFilter{
 
         mRecyclerView.setAdapter(adapteRecycler);
         adapteRecycler.setRecyclerViewOnClickListenerHack(this);
-        CoordinatorLayout clContainer = (CoordinatorLayout) findViewById(R.id.cl_container);
-        TextView tv = new TextView(this);
-        if (cursor == null) {
-            tv.setText("Nenhum dado encontrado!");
-            tv.setTextColor(getResources().getColor(R.color.colorPrimarytext));
-            tv.setId(0);
-            tv.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-            tv.setGravity(Gravity.CENTER);
-            clContainer.addView(tv);
-        } else if (clContainer.findViewById(0) != null) {
-            clContainer.removeView(clContainer.findViewById(0));
 
-        }
     }
 
 
