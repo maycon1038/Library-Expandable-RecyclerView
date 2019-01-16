@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MyLiblarySearchableRecyclerView</string>
+    <string name="action_settings">Settings</string>
+    <string name="search_hint">Buscar</string>
+    <string name="action_delete">Limpar histórico de pesquisa</string>
+    <string name="action_searchable_activity">Pesquisar</string>
+    <string name="search">Pesquisar</string>
+</resources>
