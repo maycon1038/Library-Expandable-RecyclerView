@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
 
     public void hendleSearch() {
         cursor = dao.buscarTudo();
-        filter.init(this, cursor);
+        filter.initCursor(this, cursor);
 
     }
 

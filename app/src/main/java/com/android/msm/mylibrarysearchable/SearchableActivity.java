@@ -83,7 +83,7 @@ MyFilter{
             cursor = dao.buscarStrings(q);
             CoordinatorLayout clContainer = (CoordinatorLayout) findViewById(R.id.cl_container);
             TextView tv = new TextView(this);
-            filter.init(this,cursor);
+            filter.initCursor(this,cursor);
             if(cursor == null){
                 tv.setText("Nenhum dado encontrado!");
                 tv.setTextColor(getResources().getColor(R.color.colorPrimarytext));

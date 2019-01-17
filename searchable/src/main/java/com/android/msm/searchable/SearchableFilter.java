@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.MyFilter;
+import com.google.gson.JsonArray;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,12 @@ public class SearchableFilter {
     private int idLayout;
     private Cursor cursor;
 
+    public void setJson(JsonArray json) {
+        this.json = json;
+    }
+
+    private JsonArray json;
+
     public SearchableFilter(Context ctx, int idLayout, ArrayList<Integer> listID, ArrayList<String> itensDatabase) {
         this.ctx = ctx;
         this.listID = listID;
@@ -26,9 +33,15 @@ public class SearchableFilter {
         this.idLayout = idLayout;
     }
 
-    public SearchableFilter init(MyFilter callback, Cursor cursor) {
+    public SearchableFilter initCursor(MyFilter callback, Cursor cursor) {
         SearchableFilter ini = new SearchableFilter(ctx,idLayout,listID,ItensDatabase);
         ini.setCursor(cursor);
+        ini.setFilterCallback(callback);
+        return  ini;
+    }
+    public SearchableFilter initJson(MyFilter callback, JsonArray json) {
+        SearchableFilter ini = new SearchableFilter(ctx,idLayout,listID,ItensDatabase);
+        ini.setJson(json);
         ini.setFilterCallback(callback);
         return  ini;
     }
