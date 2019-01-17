@@ -3,7 +3,7 @@ package com.android.msm.searchable;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.android.msm.searchable.adapters.MyRecyclerAdapter;
+import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.MyFilter;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class SearchableFilter {
 
     private Context ctx;
     private MyFilter myFilter;
-    private MyRecyclerAdapter adapteRecycler;
+    private RecyclerAdapter adapteRecycler;
     ArrayList<Integer> listID;
     ArrayList<String> ItensDatabase;
     private int idLayout;
@@ -35,7 +35,7 @@ public class SearchableFilter {
 
     private void setFilterCallback(MyFilter callback) {
         this.myFilter = callback;
-        adapteRecycler = new MyRecyclerAdapter(ctx,idLayout,cursor, ItensDatabase, listID);
+        adapteRecycler = new RecyclerAdapter(ctx,idLayout,cursor, ItensDatabase, listID);
         myFilter.filter(adapteRecycler);
     }
 

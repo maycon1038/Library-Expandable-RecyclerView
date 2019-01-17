@@ -1,8 +1,5 @@
 package com.android.msm.searchable.adapters;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,24 +11,32 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerHack;
+import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerCursor;
+import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerJson;
+import com.google.gson.JsonArray;
 
 import java.util.ArrayList;
 
 
-
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     public static CursorAdapter mCursorAdapter;
     static ArrayList<Integer> listID;
-    private static RecyclerViewOnClickListenerHack mRecyclerViewOnClickListenerHack;
+    private static RecyclerViewOnClickListenerCursor mRecyclerViewOnClickListenerCursor;
+    private static RecyclerViewOnClickListenerJson mRecyclerViewOnClickListenerJson;
     private static ObjectAnimator mAnimator;
-    ArrayList<String> nameItensDatabase;
+
+
+
+
+    private ArrayList<String> nameItensDatabase;
     private Context mContext;
     private LayoutInflater mInflater;
+    public static  JsonArray jsonArray;
+    private int IdLayout;
 
 
-    public MyRecyclerAdapter(Context context, final int idLayout, Cursor c, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
+    public RecyclerAdapter(Context context, final int idLayout, Cursor c, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
         mContext = context;
         listID = list_id;
         nameItensDatabase = itensDatabase;
@@ -58,12 +63,41 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         };
     }
 
+    public RecyclerAdapter(Context c, JsonArray jsonArray, final int idLayout, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
+        mContext = c;
+        this.jsonArray = jsonArray;
+        listID = list_id;
+        IdLayout = idLayout;
+        nameItensDatabase = itensDatabase;
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
     public static CursorAdapter getmCursorAdapter() {
         return mCursorAdapter;
     }
 
-    public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack r) {
-        mRecyclerViewOnClickListenerHack = r;
+    public static JsonArray getmJsonArray() {
+        return jsonArray;
+    }
+
+    private static void onEditStarted(View v) {
+
+        if (mAnimator != null) {
+            mAnimator.cancel();
+        }
+
+        mAnimator = ObjectAnimator.ofFloat(v, View.ALPHA, 0.5f, 1.0f);
+        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        mAnimator.setDuration(200);
+        mAnimator.start();
+    }
+
+    public void setRecyclerViewOnClickListenerCursor(RecyclerViewOnClickListenerCursor r) {
+        mRecyclerViewOnClickListenerCursor = r;
+    }
+
+    public void setRecyclerViewOnClickListenerJson(RecyclerViewOnClickListenerJson r) {
+        mRecyclerViewOnClickListenerJson = r;
     }
 
     @Override
@@ -74,9 +108,21 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // Passing the binding operation to cursor loader
-        mCursorAdapter.getCursor().moveToPosition(position);
-        //EDITED: added this line as suggested in the comments below, thanks :)
-        mCursorAdapter.bindView(holder.itemView, mContext, mCursorAdapter.getCursor());
+        if(mCursorAdapter != null){
+            mCursorAdapter.getCursor().moveToPosition(position);
+            //EDITED: added this line as suggested in the comments below, thanks :)
+            mCursorAdapter.bindView(holder.itemView, mContext, mCursorAdapter.getCursor());
+        }else if(!jsonArray.isJsonNull()){
+            int index = 0;
+            for (TextView v : holder.lisTextView) {
+                v.setText(
+                        jsonArray.get(index++).getAsJsonObject().get(
+                                nameItensDatabase.get(index++)
+                        ).getAsString());
+
+            }
+        }
+
 
     }
 
@@ -84,6 +130,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Passing the inflater job to the cursor-adapter
         View v = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
+
         return new ViewHolder(v);
     }
 
@@ -103,31 +150,23 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            if (mRecyclerViewOnClickListenerHack != null) {
+            if (mRecyclerViewOnClickListenerCursor != null) {
                 onEditStarted(v);
-                mRecyclerViewOnClickListenerHack.onClickListener(v, getmCursorAdapter(), getAdapterPosition());
+                mRecyclerViewOnClickListenerCursor.onClickListener(v, getmCursorAdapter(), getAdapterPosition());
+            }
+            if (mRecyclerViewOnClickListenerJson != null) {
+                onEditStarted(v);
+                mRecyclerViewOnClickListenerJson.onClickListener(v, getmJsonArray(), getAdapterPosition());
             }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            if (mRecyclerViewOnClickListenerHack != null) {
-                mRecyclerViewOnClickListenerHack.onLongPressClickListener(v, getmCursorAdapter(), getAdapterPosition());
+            if (mRecyclerViewOnClickListenerCursor != null) {
+                mRecyclerViewOnClickListenerCursor.onLongPressClickListener(v, getmCursorAdapter(), getAdapterPosition());
             }
             return true;
         }
-    }
-
-    private static void onEditStarted(View v) {
-
-        if (mAnimator != null) {
-            mAnimator.cancel();
-        }
-
-        mAnimator = ObjectAnimator.ofFloat(v, View.ALPHA, 0.5f,1.0f);
-        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-        mAnimator.setDuration(200);
-        mAnimator.start();
     }
 
 }

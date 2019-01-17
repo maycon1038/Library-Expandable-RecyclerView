@@ -22,16 +22,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.msm.searchable.SearchableFilter;
-import com.android.msm.searchable.adapters.MyRecyclerAdapter;
+import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.MyFilter;
-import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerHack;
+import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerCursor;
 
 import java.util.ArrayList;
 
 
 
 public class SearchableActivity extends AppCompatActivity
-        implements RecyclerViewOnClickListenerHack,
+        implements RecyclerViewOnClickListenerCursor,
 MyFilter{
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
@@ -159,10 +159,10 @@ MyFilter{
 
 
     @Override
-    public void filter(MyRecyclerAdapter adapteRecycler) {
+    public void filter(RecyclerAdapter adapteRecycler) {
 
         mRecyclerView.setAdapter(adapteRecycler);
-        adapteRecycler.setRecyclerViewOnClickListenerHack(this);
+        adapteRecycler.setRecyclerViewOnClickListenerCursor(this);
 
     }
 

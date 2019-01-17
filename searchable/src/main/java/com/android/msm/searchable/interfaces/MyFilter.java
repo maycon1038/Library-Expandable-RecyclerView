@@ -1,9 +1,9 @@
 package com.android.msm.searchable.interfaces;
 
 
-import com.android.msm.searchable.adapters.MyRecyclerAdapter;
+import com.android.msm.searchable.adapters.RecyclerAdapter;
 
 public interface MyFilter {
-    public void filter(MyRecyclerAdapter adapteRecycler);
+    public void filter(RecyclerAdapter adapteRecycler);
 
 }

@@ -3,33 +3,32 @@ package com.android.msm.mylibrarysearchable;
 import android.animation.AnimatorSet;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CursorAdapter;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.msm.searchable.SearchableFilter;
-import com.android.msm.searchable.adapters.MyRecyclerAdapter;
+import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.MyFilter;
-import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerHack;
+import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerCursor;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MyFilter, RecyclerViewOnClickListenerHack {
+public class MainActivity extends AppCompatActivity implements MyFilter, RecyclerViewOnClickListenerCursor {
 
     animaisDAO dao = new animaisDAO(this);
     private ArrayList<Integer> listID;
@@ -40,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
     private Toolbar mToolbar;
     private AnimatorSet mAnimator;
     private Object mBinding;
+    private JSONArray myJsonObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,9 +146,36 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
     }
 
     @Override
-    public void filter(MyRecyclerAdapter adapteRecycler) {
+    public void filter(RecyclerAdapter adapteRecycler) {
         mRecyclerView.setAdapter(adapteRecycler);
-        adapteRecycler.setRecyclerViewOnClickListenerHack(this);
+        adapteRecycler.setRecyclerViewOnClickListenerCursor(this);
+    }
+
+
+    private JSONArray cur2Json(Cursor cursor) {
+
+        JSONArray resultSet = new JSONArray();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int totalColumn = cursor.getColumnCount();
+            JSONObject rowObject = new JSONObject();
+            for (int i = 0; i < totalColumn; i++) {
+                if (cursor.getColumnName(i) != null) {
+                    try {
+                        rowObject.put(cursor.getColumnName(i),
+                                cursor.getString(i));
+                    } catch (Exception e) {
+                        Log.d("MainActivity ", e.getMessage());
+                    }
+                }
+            }
+            resultSet.put(rowObject);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return resultSet;
+
     }
 
 
