@@ -22,13 +22,17 @@ import com.android.msm.searchable.SearchableFilter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.MyFilter;
 import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerCursor;
+import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerJson;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MyFilter, RecyclerViewOnClickListenerCursor {
+import static com.android.msm.mylibrarysearchable.JsonUtil.convertlist;
+
+public class MainActivity extends AppCompatActivity implements MyFilter, RecyclerViewOnClickListenerJson {
 
     animaisDAO dao = new animaisDAO(this);
     private ArrayList<Integer> listID;
@@ -96,11 +100,11 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         mRecyclerView.setHasFixedSize(true);
-
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         listID = new ArrayList<>();
         ItensDatabase = new ArrayList<>();
         listID.add(R.id.tv_id);
@@ -124,8 +128,7 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
     }
 
     public void hendleSearch() {
-        cursor = dao.buscarTudo();
-        filter.initCursor(this, cursor);
+        filter.initJson(this,convertlist( getListAnimais()));
 
     }
 
@@ -148,34 +151,7 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
     @Override
     public void filter(RecyclerAdapter adapteRecycler) {
         mRecyclerView.setAdapter(adapteRecycler);
-        adapteRecycler.setRecyclerViewOnClickListenerCursor(this);
-    }
-
-
-    private JSONArray cur2Json(Cursor cursor) {
-
-        JSONArray resultSet = new JSONArray();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            int totalColumn = cursor.getColumnCount();
-            JSONObject rowObject = new JSONObject();
-            for (int i = 0; i < totalColumn; i++) {
-                if (cursor.getColumnName(i) != null) {
-                    try {
-                        rowObject.put(cursor.getColumnName(i),
-                                cursor.getString(i));
-                    } catch (Exception e) {
-                        Log.d("MainActivity ", e.getMessage());
-                    }
-                }
-            }
-            resultSet.put(rowObject);
-            cursor.moveToNext();
-        }
-
-        cursor.close();
-        return resultSet;
-
+        adapteRecycler.setRecyclerViewOnClickListenerJson(this);
     }
 
 
@@ -185,17 +161,30 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
         hendleSearch();
     }
 
-    @Override
-    public void onClickListener(View view, CursorAdapter cursorAdapter, int position) {
-        Cursor curso = (Cursor) cursorAdapter.getItem(position);
-        Toast.makeText(this, "Onclick...." +
-                curso.getString(3), Toast.LENGTH_SHORT).show();
+
+    public  ArrayList<animais> getListAnimais() {
+        ArrayList<animais> list = new ArrayList<>();
+        animaisDAO dao = new animaisDAO(getBaseContext());
+        Cursor cl = dao.buscarTudo();  // buscando o curso de todas lotacoes
+        while (cl.moveToNext()) {
+            list.add(
+                    new animais(cl.getInt(1),
+                            cl.getString(3)));   //calcula a distancia  e adiciona na lista
+
+        }
+        cl.close();
+
+        return list;
     }
 
     @Override
-    public void onLongPressClickListener(View view, CursorAdapter cursorAdapter, int position) {
-        Cursor curso = (Cursor) cursorAdapter.getItem(position);
-        Toast.makeText(this, "OnLongClick...." +
-                curso.getString(3), Toast.LENGTH_SHORT).show();
+    public void onClickListener(View view, JsonArray json, int position) {
+        Toast.makeText(this, "Onclick...." +
+                json.get(position).getAsJsonObject().get("raca").toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLongPressClickListener(View view, JsonArray json, int position) {
+
     }
 }

@@ -19,12 +19,12 @@ public class SearchableFilter {
     ArrayList<String> ItensDatabase;
     private int idLayout;
     private Cursor cursor;
+    private JsonArray json;
 
     public void setJson(JsonArray json) {
         this.json = json;
     }
 
-    private JsonArray json;
 
     public SearchableFilter(Context ctx, int idLayout, ArrayList<Integer> listID, ArrayList<String> itensDatabase) {
         this.ctx = ctx;
@@ -48,7 +48,13 @@ public class SearchableFilter {
 
     private void setFilterCallback(MyFilter callback) {
         this.myFilter = callback;
-        adapteRecycler = new RecyclerAdapter(ctx,idLayout,cursor, ItensDatabase, listID);
+        if(cursor != null){
+            adapteRecycler = new RecyclerAdapter(ctx,idLayout,cursor, ItensDatabase, listID);
+        }else{
+            adapteRecycler = new RecyclerAdapter(ctx,idLayout,json, ItensDatabase, listID);
+        }
+
+
         myFilter.filter(adapteRecycler);
     }
 

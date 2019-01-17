@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         };
     }
 
-    public RecyclerAdapter(Context c, JsonArray jsonArray, final int idLayout, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
+    public RecyclerAdapter(Context c,  final int idLayout,JsonArray jsonArray, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
         mContext = c;
         this.jsonArray = jsonArray;
         listID = list_id;
@@ -102,7 +103,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mCursorAdapter.getCount();
+
+        if(mCursorAdapter != null){
+            return mCursorAdapter.getCount();
+        }else{
+            return jsonArray.size();
+        }
     }
 
     @Override
@@ -116,9 +122,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             int index = 0;
             for (TextView v : holder.lisTextView) {
                 v.setText(
-                        jsonArray.get(index++).getAsJsonObject().get(
-                                nameItensDatabase.get(index++)
-                        ).getAsString());
+   String.valueOf(jsonArray.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
+
 
             }
         }
@@ -129,9 +134,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Passing the inflater job to the cursor-adapter
-        View v = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
+          if(mCursorAdapter != null) {
+              View v = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
 
-        return new ViewHolder(v);
+              return new ViewHolder(v);
+          }else{
+              View view = mInflater.inflate(IdLayout, parent, false);
+              ViewHolder holder = new ViewHolder(view);
+              return holder;
+          }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
