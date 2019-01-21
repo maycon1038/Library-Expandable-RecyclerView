@@ -36,10 +36,10 @@ Step 4. Em res> xml crie o arquivo searchable.xml  conforme exemplo abaixo
     android:searchSuggestAuthority="SeuPacote.SearchableProvider"
     android:searchSuggestSelection=" ?">
     </searchable>
-Step 4. Crie a Classe SearchableActivity e  implemente RecyclerViewOnClickListenerHack e MyFilter conforme exemplo
+Step 4. Crie a Classe SearchableActivity e  implemente RecyclerViewOnClickListenerJson ou  RecyclerViewOnClickListenerCursor e MyFilter conforme exemplo
 
     public class SearchableActivity extends AppCompatActivity
-            implements RecyclerViewOnClickListenerHack,
+            implements RecyclerViewOnClickListenerCursor,
     MyFilter{
         private RecyclerView mRecyclerView;
         private Toolbar mToolbar;
@@ -94,7 +94,9 @@ Step 4. Crie a Classe SearchableActivity e  implemente RecyclerViewOnClickListen
             cursor = dao.buscarStrings(q);
             CoordinatorLayout clContainer = (CoordinatorLayout) findViewById(R.id.cl_container);
             TextView tv = new TextView(this);
-            filter.init(this,cursor);
+            filter.initCursor(this,cursor);
+	    ou
+	    filter.initJson(this,JsonArray)
             if(cursor == null){
                 tv.setText("Nenhum dado encontrado!");
                 tv.setTextColor(getResources().getColor(R.color.colorPrimarytext));
