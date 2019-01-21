@@ -11,33 +11,30 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CursorAdapter;
 import android.widget.Toast;
 
-import com.android.msm.searchable.SearchableFilter;
+import com.android.msm.searchable.Adapters;
+import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
-import com.android.msm.searchable.interfaces.MyFilter;
-import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerCursor;
+import com.android.msm.searchable.interfaces.adapter;
 import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerJson;
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import static com.android.msm.mylibrarysearchable.JsonUtil.convertlist;
 
-public class MainActivity extends AppCompatActivity implements MyFilter, RecyclerViewOnClickListenerJson {
+public  class MainActivity extends AppCompatActivity implements adapter, RecyclerViewOnClickListenerJson {
 
     animaisDAO dao = new animaisDAO(this);
     private ArrayList<Integer> listID;
     private ArrayList<String> ItensDatabase;
-    private SearchableFilter filter;
+    private Adapters filter;
     private Cursor cursor;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
@@ -111,7 +108,11 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
         ItensDatabase.add("ranking");
         listID.add(R.id.tv_name);
         ItensDatabase.add("raca");
-        filter = new SearchableFilter(this, R.layout.itens, listID, ItensDatabase);
+
+        Adapters.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
+                setCursor(dao.buscarTudo()).start(this);
+
+      //  filter = new Adapters(this, R.layout.itens, listID, ItensDatabase);
 
     }
 
@@ -128,7 +129,8 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
     }
 
     public void hendleSearch() {
-        filter.initJson(this,convertlist( getListAnimais()));
+    //    filter.initJson(this,convertlist( getListAnimais()));
+
 
     }
 
@@ -149,11 +151,15 @@ public class MainActivity extends AppCompatActivity implements MyFilter, Recycle
     }
 
     @Override
-    public void filter(RecyclerAdapter adapteRecycler) {
+    public void seAdapter(RecyclerAdapter adapteRecycler) {
         mRecyclerView.setAdapter(adapteRecycler);
         adapteRecycler.setRecyclerViewOnClickListenerJson(this);
     }
 
+    @Override
+    public void seAdapter(ExpandableJsonAdapter adapter) {
+
+    }
 
     @Override
     protected void onResume() {

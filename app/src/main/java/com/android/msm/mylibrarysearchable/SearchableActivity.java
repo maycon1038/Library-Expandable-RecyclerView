@@ -21,9 +21,10 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.msm.searchable.SearchableFilter;
+import com.android.msm.searchable.Adapters;
+import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
-import com.android.msm.searchable.interfaces.MyFilter;
+import com.android.msm.searchable.interfaces.adapter;
 import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerCursor;
 
 import java.util.ArrayList;
@@ -32,12 +33,12 @@ import java.util.ArrayList;
 
 public class SearchableActivity extends AppCompatActivity
         implements RecyclerViewOnClickListenerCursor,
-MyFilter{
+        adapter {
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
     private ArrayList<Integer> listID;
     private ArrayList<String> ItensDatabase;
-    private SearchableFilter filter;
+    private Adapters filter;
     private Cursor cursor;
    animaisDAO dao = new animaisDAO(this);
 
@@ -66,7 +67,7 @@ MyFilter{
         ItensDatabase.add("ranking");
         listID.add(R.id.tv_name);
         ItensDatabase.add("raca");
-        filter = new SearchableFilter(this, R.layout.itens, listID, ItensDatabase);
+     //   filter = new Adapters(this, R.layout.itens, listID, ItensDatabase);
         hendleSearch(getIntent());
 
     }
@@ -83,7 +84,7 @@ MyFilter{
             cursor = dao.buscarStrings(q);
             CoordinatorLayout clContainer = (CoordinatorLayout) findViewById(R.id.cl_container);
             TextView tv = new TextView(this);
-            filter.initCursor(this,cursor);
+           // filter.initCursor(this,cursor);
             if(cursor == null){
                 tv.setText("Nenhum dado encontrado!");
                 tv.setTextColor(getResources().getColor(R.color.colorPrimarytext));
@@ -159,10 +160,15 @@ MyFilter{
 
 
     @Override
-    public void filter(RecyclerAdapter adapteRecycler) {
+    public void seAdapter(RecyclerAdapter adapteRecycler) {
 
         mRecyclerView.setAdapter(adapteRecycler);
         adapteRecycler.setRecyclerViewOnClickListenerCursor(this);
+
+    }
+
+    @Override
+    public void seAdapter(ExpandableJsonAdapter adapter) {
 
     }
 
