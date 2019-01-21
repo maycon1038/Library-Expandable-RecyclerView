@@ -101,10 +101,11 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
 
             int position = 0;
             for ( int view :groupTextView ) {
-                ((TextView) v.findViewById(view)).setText(parentRow.get(itensGroup.get(position++)).getAsString());
+                ((TextView) v.findViewById(view)).setText(
+                        String.valueOf(parentRow.get(itensGroup.get(position++))).replace("\"", ""));
             }
         }
-
+// String.valueOf(jsonArray.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
 
         return v;
 
@@ -118,7 +119,8 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
         v = layoutInflater.inflate(childLayout, null);
         int position = 0;
         for ( int view :childTextView ) {
-            ((TextView) v.findViewById(view)).setText(childRow.get(itensChild.get(position++)).getAsString());
+            ((TextView) v.findViewById(view)).setText(
+                    String.valueOf(childRow.get(itensChild.get(position++))).replace("\"", ""));
         }
 
 //nro_radio
