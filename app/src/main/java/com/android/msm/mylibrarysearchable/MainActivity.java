@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.msm.searchable.AdapterUtil;
 import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.Adapters;
@@ -31,7 +32,7 @@ public  class MainActivity extends AppCompatActivity implements Adapters, Recycl
     animaisDAO dao = new animaisDAO(this);
     private ArrayList<Integer> listID;
     private ArrayList<String> ItensDatabase;
-    private com.android.msm.searchable.Adapters filter;
+    private AdapterUtil filter;
     private Cursor cursor;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
@@ -106,7 +107,7 @@ public  class MainActivity extends AppCompatActivity implements Adapters, Recycl
         listID.add(R.id.tv_name);
         ItensDatabase.add("raca");
 
-        com.android.msm.searchable.Adapters.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
+        AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
                 setCursor(dao.buscarTudo()).start(this);
 
       //  filter = new Adapters(this, R.layout.itens, listID, ItensDatabase);

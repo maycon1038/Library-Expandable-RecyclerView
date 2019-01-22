@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.msm.searchable.AdapterUtil;
 import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.Adapters;
@@ -37,7 +38,7 @@ public class SearchableActivity extends AppCompatActivity
     private Toolbar mToolbar;
     private ArrayList<Integer> listID;
     private ArrayList<String> ItensDatabase;
-    private com.android.msm.searchable.Adapters filter;
+    private AdapterUtil filter;
     private Cursor cursor;
    animaisDAO dao = new animaisDAO(this);
 
