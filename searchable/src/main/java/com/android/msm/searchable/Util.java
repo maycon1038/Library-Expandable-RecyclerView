@@ -14,7 +14,7 @@ public class Util {
 
     public static void Tag(Context ctx, String m) {
 
-      //  Log.d(ctx.getClass().getSimpleName(), m);
+        Log.d(ctx.getClass().getSimpleName(), m);
 
     }
 

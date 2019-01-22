@@ -25,14 +25,15 @@ import com.android.msm.searchable.AdapterUtil;
 import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.Adapters;
-import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerCursor;
+import com.android.msm.searchable.interfaces.RecyclerViewOnClickListener;
+import com.google.gson.JsonArray;
 
 import java.util.ArrayList;
 
 
 
 public class SearchableActivity extends AppCompatActivity
-        implements RecyclerViewOnClickListenerCursor,
+        implements RecyclerViewOnClickListener,
         Adapters {
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
@@ -41,6 +42,7 @@ public class SearchableActivity extends AppCompatActivity
     private AdapterUtil filter;
     private Cursor cursor;
    animaisDAO dao = new animaisDAO(this);
+    private RecyclerAdapter myAdapter;
 
 
     @Override
@@ -68,7 +70,10 @@ public class SearchableActivity extends AppCompatActivity
         listID.add(R.id.tv_name);
         ItensDatabase.add("raca");
      //   filter = new Adapters(this, R.layout.itens, listID, ItensDatabase);
-        hendleSearch(getIntent());
+
+        AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
+                setCursor(dao.buscarTudo()).start(this);
+       hendleSearch(getIntent());
 
     }
 
@@ -81,11 +86,11 @@ public class SearchableActivity extends AppCompatActivity
     public void hendleSearch(Intent intent) {
         if (Intent.ACTION_SEARCH.equalsIgnoreCase(intent.getAction())) {
             String q = intent.getStringExtra(SearchManager.QUERY);
-            cursor = dao.buscarStrings(q);
-            CoordinatorLayout clContainer = (CoordinatorLayout) findViewById(R.id.cl_container);
-            TextView tv = new TextView(this);
-           // filter.initCursor(this,cursor);
-            if(cursor == null){
+
+           /* CoordinatorLayout clContainer = (CoordinatorLayout) findViewById(R.id.cl_container);
+            TextView tv = new TextView(this);*/
+            myAdapter.filterData(q);
+          /*  if(cursor == null){
                 tv.setText("Nenhum dado encontrado!");
                 tv.setTextColor(getResources().getColor(R.color.colorPrimarytext));
                 tv.setId(0);
@@ -95,7 +100,7 @@ public class SearchableActivity extends AppCompatActivity
             }else if (clContainer.findViewById(0) != null) {
                 clContainer.removeView(clContainer.findViewById(0));
 
-            }
+            }*/
 
 
             SearchRecentSuggestions searchRecentSuggestions = new SearchRecentSuggestions(this,
@@ -142,35 +147,28 @@ public class SearchableActivity extends AppCompatActivity
         return true;
     }
 
-    // LISTENERS
-    @Override
-    public void onClickListener(View view, CursorAdapter cursorAdapter, int position) {
-        Cursor curso = (Cursor) cursorAdapter.getItem(position);
-        Toast.makeText(this, "Onclick...." +
-                curso.getString(3), Toast.LENGTH_SHORT).show();
-    }
 
     @Override
-    public void onLongPressClickListener(View view, CursorAdapter cursorAdapter, int position) {
-        Cursor curso = (Cursor) cursorAdapter.getItem(position);
-        Toast.makeText(this, "OnLongClick...." +
-                curso.getString(3), Toast.LENGTH_SHORT).show();
-    }
-
-
-
-    @Override
-    public void seAdapter(RecyclerAdapter adapteRecycler) {
-
-        mRecyclerView.setAdapter(adapteRecycler);
-        adapteRecycler.setRecyclerViewOnClickListenerCursor(this);
-
+    public void seAdapter(RecyclerAdapter adapter) {
+        myAdapter = adapter;
+        mRecyclerView.setAdapter(myAdapter);
     }
 
     @Override
     public void seAdapter(ExpandableJsonAdapter adapter) {
 
+
+
     }
 
 
+    @Override
+    public void onClickListener(View view, JsonArray json, int position) {
+
+    }
+
+    @Override
+    public void onLongPressClickListener(View view, JsonArray json, int position) {
+
+    }
 }

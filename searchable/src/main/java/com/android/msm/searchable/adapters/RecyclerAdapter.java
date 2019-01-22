@@ -2,9 +2,7 @@ package com.android.msm.searchable.adapters;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,32 +10,45 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerCursor;
-import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerJson;
+import com.android.msm.searchable.interfaces.RecyclerViewOnClickListener;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+
+import static com.android.msm.searchable.Util.Tag;
 
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     public static CursorAdapter mCursorAdapter;
     static ArrayList<Integer> listID;
-    private static RecyclerViewOnClickListenerCursor mRecyclerViewOnClickListenerCursor;
-    private static RecyclerViewOnClickListenerJson mRecyclerViewOnClickListenerJson;
+    private static RecyclerViewOnClickListener mRecyclerViewOnClickListener;
     private static ObjectAnimator mAnimator;
-
-
 
 
     private ArrayList<String> nameItensDatabase;
     private Context mContext;
     private LayoutInflater mInflater;
-    public static  JsonArray jsonArray;
+    private JsonArray jsonArray;
+    private JsonArray groupLinhaList;
     private int IdLayout;
 
+    public RecyclerAdapter(Context c, final int idLayout, JsonArray jsonArray, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
+        mContext = c;
+        this.jsonArray = new JsonArray();
+        this.jsonArray.addAll(jsonArray);
+        this.groupLinhaList = new JsonArray();
+        this.groupLinhaList.addAll(jsonArray);
+        listID = list_id;
+        IdLayout = idLayout;
+        nameItensDatabase = itensDatabase;
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
 
-    public RecyclerAdapter(Context context, final int idLayout, Cursor c, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
+
+    /*public RecyclerAdapter(Context context, final int idLayout, Cursor c, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
         mContext = context;
         listID = list_id;
         nameItensDatabase = itensDatabase;
@@ -62,24 +73,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
             }
         };
-    }
-
-    public RecyclerAdapter(Context c,  final int idLayout,JsonArray jsonArray, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
-        mContext = c;
-        this.jsonArray = jsonArray;
-        listID = list_id;
-        IdLayout = idLayout;
-        nameItensDatabase = itensDatabase;
-        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public static CursorAdapter getmCursorAdapter() {
-        return mCursorAdapter;
-    }
-
-    public static JsonArray getmJsonArray() {
-        return jsonArray;
-    }
+    }*/
 
     private static void onEditStarted(View v) {
 
@@ -93,36 +87,65 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         mAnimator.start();
     }
 
-    public void setRecyclerViewOnClickListenerCursor(RecyclerViewOnClickListenerCursor r) {
-        mRecyclerViewOnClickListenerCursor = r;
+    /*private  CursorAdapter getmCursorAdapter() {
+        return mCursorAdapter;
+    }*/
+
+    public void filterData(String query) {
+        query = query.toLowerCase();
+        groupLinhaList = new JsonArray();
+
+        if (query.isEmpty()) {
+            groupLinhaList.addAll(jsonArray);
+        } else {
+            JsonArray newGroupList = new JsonArray();
+            //String.valueOf(jsonArray.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
+
+            for (JsonElement jsonElement : jsonArray) {
+                //jsonArray.get(position).getAsJsonObject()
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+                for (String value : nameItensDatabase) {
+                    if (String.valueOf(jsonObject.get(value)).replace("\"", "").toLowerCase().contains(query)) {
+
+                        newGroupList.add(jsonObject);
+                    }
+                }
+            }
+            if (newGroupList.size() > 0) {
+                groupLinhaList.addAll(newGroupList);
+                Tag(mContext, " groupLinhaList Teste" + groupLinhaList.toString());
+            }
+
+        } // end else
+
+        notifyDataSetChanged();
     }
 
-    public void setRecyclerViewOnClickListenerJson(RecyclerViewOnClickListenerJson r) {
-        mRecyclerViewOnClickListenerJson = r;
+    private JsonArray getmJsonArray() {
+        return groupLinhaList;
+    }
+
+    public void setRecyclerViewOnClickListenerJson(RecyclerViewOnClickListener r) {
+        mRecyclerViewOnClickListener = r;
     }
 
     @Override
     public int getItemCount() {
 
-        if(mCursorAdapter != null){
-            return mCursorAdapter.getCount();
-        }else{
-            return jsonArray.size();
-        }
+
+            return groupLinhaList.size();
+
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // Passing the binding operation to cursor loader
-        if(mCursorAdapter != null){
-            mCursorAdapter.getCursor().moveToPosition(position);
-            //EDITED: added this line as suggested in the comments below, thanks :)
-            mCursorAdapter.bindView(holder.itemView, mContext, mCursorAdapter.getCursor());
-        }else if(!jsonArray.isJsonNull()){
+        if (!groupLinhaList.isJsonNull()) {
             int index = 0;
             for (TextView v : holder.lisTextView) {
                 v.setText(
-   String.valueOf(jsonArray.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
+                        String.valueOf(groupLinhaList.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
 
 
             }
@@ -134,18 +157,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Passing the inflater job to the cursor-adapter
-          if(mCursorAdapter != null) {
-              View v = mCursorAdapter.newView(mContext, mCursorAdapter.getCursor(), parent);
-
-              return new ViewHolder(v);
-          }else{
-              View view = mInflater.inflate(IdLayout, parent, false);
-              ViewHolder holder = new ViewHolder(view);
-              return holder;
-          }
+        View view = mInflater.inflate(IdLayout, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         ArrayList<TextView> lisTextView = new ArrayList<>();
 
@@ -161,21 +178,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         @Override
         public void onClick(View v) {
-            if (mRecyclerViewOnClickListenerCursor != null) {
-                onEditStarted(v);
-                mRecyclerViewOnClickListenerCursor.onClickListener(v, getmCursorAdapter(), getAdapterPosition());
-            }
-            if (mRecyclerViewOnClickListenerJson != null) {
-                onEditStarted(v);
-                mRecyclerViewOnClickListenerJson.onClickListener(v, getmJsonArray(), getAdapterPosition());
+
+            if (mRecyclerViewOnClickListener != null) {
+                mRecyclerViewOnClickListener.onClickListener(v, getmJsonArray(), getAdapterPosition());
             }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            if (mRecyclerViewOnClickListenerCursor != null) {
+           /* if (mRecyclerViewOnClickListenerCursor != null) {
                 mRecyclerViewOnClickListenerCursor.onLongPressClickListener(v, getmCursorAdapter(), getAdapterPosition());
-            }
+            }*/
             return true;
         }
     }

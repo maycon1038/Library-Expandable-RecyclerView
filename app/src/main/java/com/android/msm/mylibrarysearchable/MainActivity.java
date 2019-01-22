@@ -20,14 +20,14 @@ import com.android.msm.searchable.AdapterUtil;
 import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.Adapters;
-import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerJson;
+import com.android.msm.searchable.interfaces.RecyclerViewOnClickListener;
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-public  class MainActivity extends AppCompatActivity implements Adapters, RecyclerViewOnClickListenerJson {
+public  class MainActivity extends AppCompatActivity implements Adapters, RecyclerViewOnClickListener {
 
     animaisDAO dao = new animaisDAO(this);
     private ArrayList<Integer> listID;
@@ -39,6 +39,7 @@ public  class MainActivity extends AppCompatActivity implements Adapters, Recycl
     private AnimatorSet mAnimator;
     private Object mBinding;
     private JSONArray myJsonObject;
+    private RecyclerAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,8 +151,9 @@ public  class MainActivity extends AppCompatActivity implements Adapters, Recycl
 
     @Override
     public void seAdapter(RecyclerAdapter adapteRecycler) {
-        mRecyclerView.setAdapter(adapteRecycler);
-        adapteRecycler.setRecyclerViewOnClickListenerJson(this);
+        myAdapter = adapteRecycler;
+        mRecyclerView.setAdapter(myAdapter);
+        myAdapter.setRecyclerViewOnClickListenerJson(this);
     }
 
     @Override
@@ -164,7 +166,6 @@ public  class MainActivity extends AppCompatActivity implements Adapters, Recycl
         super.onResume();
         hendleSearch();
     }
-
 
     public  ArrayList<animais> getListAnimais() {
         ArrayList<animais> list = new ArrayList<>();

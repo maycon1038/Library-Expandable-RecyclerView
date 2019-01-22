@@ -31,10 +31,14 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
                                  ArrayList<Integer> groupTextView, ArrayList<Integer> childTextView,
                                  int childLayout, int groupLayout, ArrayList<String> itensChild, ArrayList<String> itensGroup) {
         this.context = context;
+
+
         this.groupLinhaList = new JsonArray();
         this.groupLinhaList.addAll(originalList);
         this.originalList = new JsonArray();
         this.originalList.addAll(originalList);
+
+
         this.groupTextView = new ArrayList<Integer>();
         this.groupTextView = groupTextView;
         this.childTextView = new ArrayList<Integer>();
