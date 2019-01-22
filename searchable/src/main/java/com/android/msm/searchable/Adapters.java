@@ -6,7 +6,6 @@ import android.database.Cursor;
 import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
 import com.android.msm.searchable.interfaces.JsonConvert;
-import com.android.msm.searchable.interfaces.adapter;
 import com.google.gson.JsonArray;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class Adapters implements JsonConvert {
     ArrayList<String> ItensDatabase;
     private String name;
     private Context context;
-    private adapter myFilter;
+    private com.android.msm.searchable.interfaces.Adapters myFilter;
     private RecyclerAdapter adapteRecycler;
     private ExpandableJsonAdapter adapterExpandable;
     private int idLayout;
@@ -74,7 +73,7 @@ public class Adapters implements JsonConvert {
         return getDefault(context);
     }
 
-  public Adapters setObjects( Object object) {
+  public Adapters setObjects(Object object) {
         JsonUtil.setObj(object).Convert(this);
         return getDefault(context);
     }
@@ -92,7 +91,7 @@ public class Adapters implements JsonConvert {
     }
 
     public Adapters configExpandableAdapter(int idLayoutGroup, int idLayoutChild,
-         ArrayList<Integer> listIdsGrup, ArrayList<Integer> listIdsfilho,
+                                            ArrayList<Integer> listIdsGrup, ArrayList<Integer> listIdsfilho,
                                             ArrayList<String> itensGrupo, ArrayList<String> itensChild) {
         this.idLayoutGroup = idLayoutGroup;
         this.idLayoutChild = idLayoutChild;
@@ -108,7 +107,7 @@ public class Adapters implements JsonConvert {
         return getDefault(context);
     }
 
-    public Adapters start(adapter callback) {
+    public Adapters start(com.android.msm.searchable.interfaces.Adapters callback) {
         Adapters ini = getDefault(context);
         ini.setFilterCallback(callback);
         return ini;
@@ -116,7 +115,7 @@ public class Adapters implements JsonConvert {
 
 
 
-    private void setFilterCallback(adapter callback) {
+    private void setFilterCallback(com.android.msm.searchable.interfaces.Adapters callback) {
         this.myFilter = callback;
         if (isConfigExpandableAdapter) {
             adapterExpandable = new ExpandableJsonAdapter(context,json,listIdsGrup,

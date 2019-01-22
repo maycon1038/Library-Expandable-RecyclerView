@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.android.msm.searchable.R;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
     private JsonArray originalList, groupLinhaList;
     private ArrayList<Integer> groupTextView, childTextView;
     private int childLayout, groupLayout;
-     private  ArrayList<String> itensChild;
+    private  ArrayList<String> itensChild;
     private  ArrayList<String> itensGroup;
 
 
@@ -110,7 +111,7 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View v, ViewGroup parent) {
-       JsonObject childRow = (JsonObject) getChild(groupPosition, childPosition);
+        JsonObject childRow = (JsonObject) getChild(groupPosition, childPosition);
         LayoutInflater layoutInflater = (LayoutInflater)
                 context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         v = layoutInflater.inflate(childLayout, null);
@@ -132,32 +133,40 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
     }
 
     public void filterData(String query) {
-      /*  query = query.toLowerCase();
-        groupLinhaList = null;
+        query = query.toLowerCase();
+        groupLinhaList = new JsonArray();
 
         if (query.isEmpty()) {
             groupLinhaList.addAll(originalList);
         } else {
-            int y = 0, j = 0;
-            for (JsonArray parentRow : originalList) {
-                JsonArray childList = parentRow.get(y).getAsJsonArray();
-                JsonArray newList = new JsonArray();
+            JsonArray newGroupList = new JsonArray();
+            //groupLinhaList.get(groupPosition).getAsJsonArray().get(0).getAsJsonObject()
+            //groupLinhaList.get(groupPosition).getAsJsonArray().get(1).getAsJsonArray().get(childPosition).getAsJsonObject()
+            for(JsonElement jsonElement : originalList) {
+                JsonObject jsonObject = jsonElement.getAsJsonArray().get(0).getAsJsonObject();
+                JsonArray jsonQuery = jsonElement.getAsJsonArray().get(1).getAsJsonArray();
+                JsonArray newChildList = new JsonArray();
+                for (JsonElement childRow : jsonQuery) {
+                    for (String value : itensChild) {
+                        if (String.valueOf(childRow.getAsJsonObject().get(value)).replace("\"", "").toLowerCase().contains(query)) {
 
-                for (JsonElement childRow : childList) {
-                    if (childRow.getAsJsonObject().get("teste").toString().toLowerCase().contains(query)
-                            || childRow.getAsJsonObject().get("teste2").toString().toLowerCase().contains(query)
-                            || childRow.getAsJsonObject().get("teste3").toString().toLowerCase().contains(query)) {
-                        newList.add(childRow);
+                            newChildList.add(childRow);
+                        }
                     }
                 }
-                if (newList.size() > 0) {
-                  *//*  ParentRow nParentRow = new ParentRow(parentRow.getName(), newList);
-                    groupLinhaList.add(nParentRow);*//*
+                if (newChildList.size() > 0) {
+                    newGroupList.add(jsonObject);
+                    newGroupList.add(newChildList);
+                    Tag(context, " groupLinhaList Teste" + groupLinhaList.toString());
                 }
-            } // end or (com.example.user.searchviewexpandablelistChildview.ParentRow parentRow : originalList)
+            }
+            if(newGroupList.size() >0){
+                groupLinhaList.add(newGroupList);
+            }
+
         } // end else
 
-        notifyDataSetChanged();*/
+        notifyDataSetChanged();
     }
 
 

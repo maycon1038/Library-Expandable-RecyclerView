@@ -16,10 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.android.msm.searchable.Adapters;
 import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
-import com.android.msm.searchable.interfaces.adapter;
+import com.android.msm.searchable.interfaces.Adapters;
 import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerJson;
 import com.google.gson.JsonArray;
 
@@ -27,14 +26,12 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-import static com.android.msm.mylibrarysearchable.JsonUtil.convertlist;
-
-public  class MainActivity extends AppCompatActivity implements adapter, RecyclerViewOnClickListenerJson {
+public  class MainActivity extends AppCompatActivity implements Adapters, RecyclerViewOnClickListenerJson {
 
     animaisDAO dao = new animaisDAO(this);
     private ArrayList<Integer> listID;
     private ArrayList<String> ItensDatabase;
-    private Adapters filter;
+    private com.android.msm.searchable.Adapters filter;
     private Cursor cursor;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
@@ -109,7 +106,7 @@ public  class MainActivity extends AppCompatActivity implements adapter, Recycle
         listID.add(R.id.tv_name);
         ItensDatabase.add("raca");
 
-        Adapters.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
+        com.android.msm.searchable.Adapters.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
                 setCursor(dao.buscarTudo()).start(this);
 
       //  filter = new Adapters(this, R.layout.itens, listID, ItensDatabase);

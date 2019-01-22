@@ -21,10 +21,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.msm.searchable.Adapters;
 import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
-import com.android.msm.searchable.interfaces.adapter;
+import com.android.msm.searchable.interfaces.Adapters;
 import com.android.msm.searchable.interfaces.RecyclerViewOnClickListenerCursor;
 
 import java.util.ArrayList;
@@ -33,12 +32,12 @@ import java.util.ArrayList;
 
 public class SearchableActivity extends AppCompatActivity
         implements RecyclerViewOnClickListenerCursor,
-        adapter {
+        Adapters {
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
     private ArrayList<Integer> listID;
     private ArrayList<String> ItensDatabase;
-    private Adapters filter;
+    private com.android.msm.searchable.Adapters filter;
     private Cursor cursor;
    animaisDAO dao = new animaisDAO(this);
 
