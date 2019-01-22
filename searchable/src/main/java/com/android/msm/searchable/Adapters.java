@@ -26,11 +26,11 @@ public class Adapters implements JsonConvert {
     private RecyclerAdapter adapteRecycler;
     private ExpandableJsonAdapter adapterExpandable;
     private int idLayout;
+    private Cursor cursor;
     private JsonArray json;
     private int idLayoutGroup, idLayoutChild;
     private ArrayList<Integer> listIdsGrup, listIdsfilho;
     private ArrayList<String> itensGrupo, itensChild;
-    private JsonArray groupist = new JsonArray();
 
     private Adapters(Context context, String name) {
         this.context = context = context.getApplicationContext();
@@ -68,10 +68,6 @@ public class Adapters implements JsonConvert {
         return getDefault(context);
     }
 
-    public Adapters setObjects(ArrayList<Object>  objects, Object object) {
-        JsonUtil.setListObjs(objects, object).Convert(this);
-        return getDefault(context);
-    }
 
     public Adapters setCursor(Cursor cursor) {
         JsonUtil.setCursor(cursor).Convert(this);
@@ -126,7 +122,6 @@ public class Adapters implements JsonConvert {
             adapterExpandable = new ExpandableJsonAdapter(context,json,listIdsGrup,
                     listIdsfilho,idLayoutChild,idLayoutGroup,itensChild,itensGrupo);
             myFilter.seAdapter(adapterExpandable);
-            groupist = new JsonArray();
         } else if(isConfigRecycleAdapter){
             adapteRecycler = new RecyclerAdapter(context, idLayout, json, ItensDatabase, listID);
             myFilter.seAdapter(adapteRecycler);
@@ -136,6 +131,6 @@ public class Adapters implements JsonConvert {
 
     @Override
     public void asJsonArray(JsonArray jsonArray) {
-        groupist.add(jsonArray);
+        json = jsonArray;
     }
 }
