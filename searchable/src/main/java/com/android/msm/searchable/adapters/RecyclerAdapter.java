@@ -186,9 +186,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         @Override
         public boolean onLongClick(View v) {
-           /* if (mRecyclerViewOnClickListenerCursor != null) {
-                mRecyclerViewOnClickListenerCursor.onLongPressClickListener(v, getmCursorAdapter(), getAdapterPosition());
-            }*/
+            if (mRecyclerViewOnClickListener != null) {
+                mRecyclerViewOnClickListener.onLongPressClickListener(v, getmJsonArray(), getAdapterPosition());
+            }
             return true;
         }
     }

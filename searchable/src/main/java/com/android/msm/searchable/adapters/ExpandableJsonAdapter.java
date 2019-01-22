@@ -117,7 +117,7 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View v, ViewGroup parent) {
         JsonObject childRow = (JsonObject) getChild(groupPosition, childPosition);
         LayoutInflater layoutInflater = (LayoutInflater)
-                context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = layoutInflater.inflate(childLayout, null);
         int position = 0;
         for ( int view :childTextView ) {
@@ -125,7 +125,6 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
                     String.valueOf(childRow.get(itensChild.get(position++))).replace("\"", ""));
         }
 
-//nro_radio
 
 
         return v;
@@ -172,6 +171,5 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
 
         notifyDataSetChanged();
     }
-
 
 }
