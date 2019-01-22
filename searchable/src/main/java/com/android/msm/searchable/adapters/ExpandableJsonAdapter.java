@@ -34,8 +34,8 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
         this.groupLinhaList.addAll(originalList);
         this.originalList = new JsonArray();
         this.originalList.addAll(originalList);
-        this.groupTextView = groupTextView;
         this.groupTextView = new ArrayList<Integer>();
+        this.groupTextView = groupTextView;
         this.childTextView = new ArrayList<Integer>();
         this.childTextView = childTextView;
         this.groupLayout = groupLayout;
@@ -44,6 +44,7 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
         this.itensChild = itensChild;
         this.itensGroup = new ArrayList<String>();
         this.itensGroup = itensGroup;
+
 
     }
 
@@ -91,21 +92,17 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View v, ViewGroup parent) {
-      //  ParentRow parentRow = (ParentRow) getGroup(groupPosition);
-        // re = groupLinhaList.get(groupPosition).getAsJsonObject().get("title").getAsString();
         JsonObject parentRow = (JsonObject)getGroup(groupPosition);
-        if (v == null) {
-            LayoutInflater layoutInflater = (LayoutInflater)
-                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = layoutInflater.inflate(groupLayout, null);
+        LayoutInflater layoutInflater = (LayoutInflater)
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        v = layoutInflater.inflate(groupLayout, null);
+        int position = 0;
+        for ( int view :groupTextView ) {
+            ((TextView) v.findViewById(view)).setText(
+                    String.valueOf(parentRow.get(itensGroup.get(position++))).replace("\"", "")
+            );
 
-            int position = 0;
-            for ( int view :groupTextView ) {
-                ((TextView) v.findViewById(view)).setText(
-                        String.valueOf(parentRow.get(itensGroup.get(position++))).replace("\"", ""));
-            }
         }
-// String.valueOf(jsonArray.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
 
         return v;
 
