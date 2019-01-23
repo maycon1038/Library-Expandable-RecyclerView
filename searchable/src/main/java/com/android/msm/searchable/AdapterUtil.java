@@ -32,7 +32,7 @@ public class AdapterUtil implements JsonConvert {
     private ArrayList<String> itensGrupo, itensChild;
 
     private AdapterUtil(Context context, String name) {
-        this.context = context = context.getApplicationContext();
+        this.context = context;
         this.name = name;
 
     }
@@ -48,7 +48,7 @@ public class AdapterUtil implements JsonConvert {
     }
 
     private static AdapterUtil getDefault(Context context) {
-        return getInstance(context, context.getClass().getSimpleName());
+        return getInstance(context, "AdapterUtil");
     }
 
     private static AdapterUtil getInstance(Context context, String name) {
