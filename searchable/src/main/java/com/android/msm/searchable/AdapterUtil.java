@@ -48,7 +48,7 @@ public class AdapterUtil implements JsonConvert {
     }
 
     private static AdapterUtil getDefault(Context context) {
-        return getInstance(context, "Adapters");
+        return getInstance(context, context.getClass().getSimpleName());
     }
 
     private static AdapterUtil getInstance(Context context, String name) {
