@@ -69,16 +69,22 @@ public class AdapterUtil implements JsonConvert {
 
 
     public AdapterUtil setCursor(Cursor cursor) {
-        JsonUtil.setCursor(cursor).Convert(this);
+        JsonUtil json = new JsonUtil();
+        json.setCursor(cursor);
+        json.Convert(this);
         return getDefault(context);
     }
 
   public AdapterUtil setObjects(Object object) {
-        JsonUtil.setObj(object).Convert(this);
+      JsonUtil json = new JsonUtil();
+      json.setObj(object);
+      json.Convert(this);
         return getDefault(context);
     }
     public AdapterUtil setObjects(ArrayList<Object>  objects) {
-        JsonUtil.setListObj(objects).Convert(this);
+        JsonUtil json = new JsonUtil();
+        json.setListObj(objects);
+        json.Convert(this);
         return getDefault(context);
     }
 

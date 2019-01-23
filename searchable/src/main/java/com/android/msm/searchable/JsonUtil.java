@@ -3,7 +3,6 @@ package com.android.msm.searchable;
 import android.database.Cursor;
 import android.util.Log;
 
-
 import com.android.msm.searchable.interfaces.JsonConvert;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -12,71 +11,51 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class JsonUtil {
 
-    private static Cursor cursor;
-    private static Object obj;
-    private static ArrayList<Object> listObj;
-    private static HashMap<String, JsonUtil> instances = new HashMap<String, JsonUtil>();
-    private String name;
     private JsonConvert json;
-
-    private JsonUtil(String name) {
-        this.name = name;
-    }
-
-    public static JsonUtil with() {
-        return getDefault();
-    }
+    private Cursor cursor;
+    private Object obj;
+    private ArrayList<Object> listObj;
 
 
-    private static JsonUtil getDefault() {
-        return getInstance("JsonUtil");
+    public JsonUtil() {
     }
 
 
-    private static JsonUtil getInstance(String name) {
-        JsonUtil instance = instances.get(name);
-        if (instance == null)
-            instances.put(name, instance = new JsonUtil(name));
-        return instance;
-    }
-
-    public static JsonUtil setListObj(ArrayList<Object> listObj) {
+    public void setListObj(ArrayList<Object> listObj) {
         if (listObj == null) {
             throw new NullPointerException("O ArrayList<Object> não pode ser null");
         } else {
-            JsonUtil.listObj = listObj;
-            return with();
+            this.listObj = listObj;
+
         }
 
     }
 
-    public static JsonUtil setListObjs(ArrayList<Object> listObj, Object obj) {
+    public void setListObjs(ArrayList<Object> listObj, Object obj) {
         if (listObj == null) {
             throw new NullPointerException("O ArrayList<Object> e o Object não pode ser null");
         } else {
-            JsonUtil.listObj = listObj;
-            JsonUtil.obj = obj;
-            return with();
+            this.listObj = listObj;
+            this.obj = obj;
+
         }
 
     }
 
-    public static JsonUtil setCursor(Cursor cursor) {
+    public void setCursor(Cursor cursor) {
         if (cursor == null) {
             throw new NullPointerException("O Cursor não pode ser null");
         } else {
-            JsonUtil.cursor = cursor;
-            return with();
+            this.cursor = cursor;
         }
 
     }
 
 
-    private static JsonArray convertArrayListObjectToJsonArray(ArrayList<Object> list) {
+    private JsonArray convertArrayListObjectToJsonArray(ArrayList<Object> list) {
         JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
@@ -88,7 +67,7 @@ public class JsonUtil {
         return jsonArray;
     }
 
-    public static JsonArray cursorToJson(Cursor cursor) {
+    private JsonArray cursorToJson(Cursor cursor) {
         JsonArray resultSet = new JsonArray();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -111,18 +90,18 @@ public class JsonUtil {
 
     }
 
-    public  static JsonUtil setObj(Object obj) {
+    public void setObj(Object obj) {
         if (obj == null) {
             throw new NullPointerException("O Object não pode ser null");
         } else {
-            JsonUtil.obj = obj;
-            return with();
+            this.obj = obj;
+
         }
     }
 
-    public JsonUtil Convert(JsonConvert callback) {
-        with().setCallback(callback);
-        return with();
+    public void Convert(JsonConvert callback) {
+        setCallback(callback);
+
     }
 
     private void setCallback(JsonConvert j) {
@@ -133,7 +112,7 @@ public class JsonUtil {
 
     }
 
-    private JsonArray getArrayJson() {
+    public JsonArray getArrayJson() {
 
         if (obj != null && listObj != null) {
             return convertObjects(obj, listObj);
@@ -148,7 +127,7 @@ public class JsonUtil {
 
     }
 
-    private JsonArray convertObjects(Object list0, ArrayList<Object> list1) {
+    public JsonArray convertObjects(Object list0, ArrayList<Object> list1) {
 
 
         JsonArray jsonArray = new JsonArray();
@@ -161,7 +140,7 @@ public class JsonUtil {
 
     }
 
-    private JsonArray convertObjects(ArrayList<Object> list) {
+    public JsonArray convertObjects(ArrayList<Object> list) {
 
         JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
@@ -175,7 +154,7 @@ public class JsonUtil {
 
     }
 
-    private JsonArray convertObject(Object list0) {
+    public JsonArray convertObject(Object list0) {
 
 
         JsonArray jsonArray = new JsonArray();

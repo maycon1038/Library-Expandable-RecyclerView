@@ -22,11 +22,9 @@ import static com.android.msm.searchable.Util.Tag;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-    public static CursorAdapter mCursorAdapter;
+
     static ArrayList<Integer> listID;
     private static RecyclerViewOnClickListener mRecyclerViewOnClickListener;
-    private static ObjectAnimator mAnimator;
-
 
     private ArrayList<String> nameItensDatabase;
     private Context mContext;
@@ -47,49 +45,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-
-    /*public RecyclerAdapter(Context context, final int idLayout, Cursor c, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
-        mContext = context;
-        listID = list_id;
-        nameItensDatabase = itensDatabase;
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mCursorAdapter = new CursorAdapter(mContext, c, 0) {
-            @Override
-            public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                View view = mInflater.inflate(idLayout, parent, false);
-                ViewHolder holder = new ViewHolder(view);
-                view.setTag(holder);
-                return view;
-            }
-
-            @Override
-            public void bindView(View view, Context context, Cursor curso) {
-                ViewHolder holder = (ViewHolder) view.getTag();
-                int position = 0;
-                for (String name : nameItensDatabase) {
-                    String nome = curso.getString(curso.getColumnIndex(name));
-                    holder.lisTextView.get(position++).setText(nome);
-                }
-
-            }
-        };
-    }*/
-
-    private static void onEditStarted(View v) {
-
-        if (mAnimator != null) {
-            mAnimator.cancel();
-        }
-
-        mAnimator = ObjectAnimator.ofFloat(v, View.ALPHA, 0.5f, 1.0f);
-        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-        mAnimator.setDuration(200);
-        mAnimator.start();
-    }
-
-    /*private  CursorAdapter getmCursorAdapter() {
-        return mCursorAdapter;
-    }*/
 
     public void filterData(String query) {
         query = query.toLowerCase();
