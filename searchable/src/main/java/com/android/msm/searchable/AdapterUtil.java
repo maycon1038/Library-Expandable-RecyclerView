@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
 import com.android.msm.searchable.adapters.RecyclerAdapter;
+import com.android.msm.searchable.interfaces.Adapters;
 import com.android.msm.searchable.interfaces.JsonConvert;
 import com.google.gson.JsonArray;
 
@@ -25,7 +26,6 @@ public class AdapterUtil implements JsonConvert {
     private RecyclerAdapter adapteRecycler;
     private ExpandableJsonAdapter adapterExpandable;
     private int idLayout;
-    private Cursor cursor;
     private JsonArray json;
     private int idLayoutGroup, idLayoutChild;
     private ArrayList<Integer> listIdsGrup, listIdsfilho;
@@ -67,24 +67,23 @@ public class AdapterUtil implements JsonConvert {
         return getDefault(context);
     }
 
+    public AdapterUtil setObjects(ArrayList<Object> objects, Object object) {
+        JsonUtil.setListObjs(objects, object).Convert(this);
+        return getDefault(context);
+    }
 
     public AdapterUtil setCursor(Cursor cursor) {
-        JsonUtil json = new JsonUtil();
-        json.setCursor(cursor);
-        json.Convert(this);
+        JsonUtil.setCursor(cursor).Convert(this);
         return getDefault(context);
     }
 
-  public AdapterUtil setObjects(Object object) {
-      JsonUtil json = new JsonUtil();
-      json.setObj(object);
-      json.Convert(this);
+    public AdapterUtil setObjects(Object object) {
+        JsonUtil.setObj(object).Convert(this);
         return getDefault(context);
     }
-    public AdapterUtil setObjects(ArrayList<Object>  objects) {
-        JsonUtil json = new JsonUtil();
-        json.setListObj(objects);
-        json.Convert(this);
+
+    public AdapterUtil setObjects(ArrayList<Object> objects) {
+        JsonUtil.setListObj(objects).Convert(this);
         return getDefault(context);
     }
 
@@ -113,21 +112,20 @@ public class AdapterUtil implements JsonConvert {
         return getDefault(context);
     }
 
-    public AdapterUtil start(com.android.msm.searchable.interfaces.Adapters callback) {
+    public AdapterUtil start(Adapters callback) {
         AdapterUtil ini = getDefault(context);
         ini.setFilterCallback(callback);
         return ini;
     }
 
 
-
-    private void setFilterCallback(com.android.msm.searchable.interfaces.Adapters callback) {
+    private void setFilterCallback(Adapters callback) {
         this.myFilter = callback;
         if (isConfigExpandableAdapter) {
-            adapterExpandable = new ExpandableJsonAdapter(context,json,listIdsGrup,
-                    listIdsfilho,idLayoutChild,idLayoutGroup,itensChild,itensGrupo);
+            adapterExpandable = new ExpandableJsonAdapter(context, json, listIdsGrup,
+                    listIdsfilho, idLayoutChild, idLayoutGroup, itensChild, itensGrupo);
             myFilter.seAdapter(adapterExpandable);
-        } else if(isConfigRecycleAdapter){
+        } else if (isConfigRecycleAdapter) {
             adapteRecycler = new RecyclerAdapter(context, idLayout, json, ItensDatabase, listID);
             myFilter.seAdapter(adapteRecycler);
         }
@@ -136,6 +134,6 @@ public class AdapterUtil implements JsonConvert {
 
     @Override
     public void asJsonArray(JsonArray jsonArray) {
-        json = jsonArray;
+        this.json = jsonArray;
     }
 }

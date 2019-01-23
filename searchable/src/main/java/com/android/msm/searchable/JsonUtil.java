@@ -3,6 +3,7 @@ package com.android.msm.searchable;
 import android.database.Cursor;
 import android.util.Log;
 
+
 import com.android.msm.searchable.interfaces.JsonConvert;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -11,51 +12,71 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class JsonUtil {
 
+    private static Cursor cursor;
+    private static Object obj;
+    private static ArrayList<Object> listObj;
+    private static HashMap<String, JsonUtil> instances = new HashMap<String, JsonUtil>();
+    private String name;
     private JsonConvert json;
-    private Cursor cursor;
-    private Object obj;
-    private ArrayList<Object> listObj;
 
+    private JsonUtil(String name) {
+        this.name = name;
+    }
 
-    public JsonUtil() {
+    public static JsonUtil with() {
+        return getDefault();
     }
 
 
-    public void setListObj(ArrayList<Object> listObj) {
+    private static JsonUtil getDefault() {
+        return getInstance("JsonUtil");
+    }
+
+
+    private static JsonUtil getInstance(String name) {
+        JsonUtil instance = instances.get(name);
+        if (instance == null)
+            instances.put(name, instance = new JsonUtil(name));
+        return instance;
+    }
+
+    public static JsonUtil setListObj(ArrayList<Object> listObj) {
         if (listObj == null) {
             throw new NullPointerException("O ArrayList<Object> não pode ser null");
         } else {
-            this.listObj = listObj;
-
+            JsonUtil.listObj = listObj;
+            return with();
         }
 
     }
 
-    public void setListObjs(ArrayList<Object> listObj, Object obj) {
+    public static JsonUtil setListObjs(ArrayList<Object> listObj, Object obj) {
         if (listObj == null) {
             throw new NullPointerException("O ArrayList<Object> e o Object não pode ser null");
         } else {
-            this.listObj = listObj;
-            this.obj = obj;
-
+            JsonUtil.listObj = listObj;
+            JsonUtil.obj = obj;
+            return with();
         }
 
     }
 
-    public void setCursor(Cursor cursor) {
+    public static JsonUtil setCursor(Cursor cursor) {
         if (cursor == null) {
             throw new NullPointerException("O Cursor não pode ser null");
         } else {
-            this.cursor = cursor;
+            JsonUtil.cursor = cursor;
+            return with();
         }
 
     }
 
 
-    private JsonArray convertArrayListObjectToJsonArray(ArrayList<Object> list) {
+    private static JsonArray convertArrayListObjectToJsonArray(ArrayList<Object> list) {
         JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
@@ -67,7 +88,7 @@ public class JsonUtil {
         return jsonArray;
     }
 
-    private JsonArray cursorToJson(Cursor cursor) {
+    public static JsonArray cursorToJson(Cursor cursor) {
         JsonArray resultSet = new JsonArray();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -90,18 +111,18 @@ public class JsonUtil {
 
     }
 
-    public void setObj(Object obj) {
+    public  static JsonUtil setObj(Object obj) {
         if (obj == null) {
             throw new NullPointerException("O Object não pode ser null");
         } else {
-            this.obj = obj;
-
+            JsonUtil.obj = obj;
+            return with();
         }
     }
 
-    public void Convert(JsonConvert callback) {
-        setCallback(callback);
-
+    public JsonUtil Convert(JsonConvert callback) {
+        with().setCallback(callback);
+        return with();
     }
 
     private void setCallback(JsonConvert j) {
@@ -112,22 +133,29 @@ public class JsonUtil {
 
     }
 
-    public JsonArray getArrayJson() {
+    private JsonArray getArrayJson() {
 
         if (obj != null && listObj != null) {
+            cursor = null;
             return convertObjects(obj, listObj);
         } else if (obj != null) {
+            cursor = null;
+            listObj =  null;
             return convertObject(obj);
         } else if (listObj != null) {
+            cursor = null;
+            obj = null;
             return convertObjects(listObj);
         } else if (cursor != null) {
+            listObj =  null;
+            obj = null;
             return cursorToJson(cursor);
         }
         return null;
 
     }
 
-    public JsonArray convertObjects(Object list0, ArrayList<Object> list1) {
+    private JsonArray convertObjects(Object list0, ArrayList<Object> list1) {
 
 
         JsonArray jsonArray = new JsonArray();
@@ -140,7 +168,7 @@ public class JsonUtil {
 
     }
 
-    public JsonArray convertObjects(ArrayList<Object> list) {
+    private JsonArray convertObjects(ArrayList<Object> list) {
 
         JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
@@ -154,7 +182,7 @@ public class JsonUtil {
 
     }
 
-    public JsonArray convertObject(Object list0) {
+    private JsonArray convertObject(Object list0) {
 
 
         JsonArray jsonArray = new JsonArray();
