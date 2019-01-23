@@ -15,8 +15,8 @@ import java.util.HashMap;
 
 public class AdapterUtil implements JsonConvert {
 
-    private static boolean isConfigExpandableAdapter = false;
-    private static boolean isConfigRecycleAdapter = false;
+    private  boolean isConfigExpandableAdapter = false;
+    private  boolean isConfigRecycleAdapter = false;
     private static HashMap<String, AdapterUtil> instances = new HashMap<String, AdapterUtil>();
     ArrayList<Integer> listID;
     ArrayList<String> ItensDatabase;
@@ -91,7 +91,7 @@ public class AdapterUtil implements JsonConvert {
         this.listID = listID;
         ItensDatabase = itensDatabase;
         this.idLayout = idLayout;
-        isConfigRecycleAdapter = true;
+        isExpandableAdapter(false);
         return getDefault(context);
     }
 
@@ -108,8 +108,12 @@ public class AdapterUtil implements JsonConvert {
         this.itensGrupo = itensGrupo;
         this.itensChild = new ArrayList<String>();
         this.itensChild = itensChild;
-        isConfigExpandableAdapter = true;
+        isExpandableAdapter(true);
         return getDefault(context);
+    }
+    private void isExpandableAdapter(Boolean b){
+              isConfigExpandableAdapter = b;
+              isConfigRecycleAdapter = !b;
     }
 
     public AdapterUtil start(Adapters callback) {
