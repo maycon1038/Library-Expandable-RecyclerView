@@ -107,6 +107,7 @@ public class JsonUtil {
             cursor.moveToNext();
         }
         cursor.close();
+        JsonUtil.cursor = null;
         return resultSet;
 
     }
@@ -136,19 +137,12 @@ public class JsonUtil {
     private JsonArray getArrayJson() {
 
         if (obj != null && listObj != null) {
-            cursor = null;
             return convertObjects(obj, listObj);
         } else if (obj != null) {
-            cursor = null;
-            listObj =  null;
             return convertObject(obj);
         } else if (listObj != null) {
-            cursor = null;
-            obj = null;
             return convertObjects(listObj);
         } else if (cursor != null) {
-            listObj =  null;
-            obj = null;
             return cursorToJson(cursor);
         }
         return null;
@@ -157,13 +151,14 @@ public class JsonUtil {
 
     private JsonArray convertObjects(Object list0, ArrayList<Object> list1) {
 
-
         JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
         JsonElement je = parser.parse(gson.toJson(list0));
         jsonArray.add(je);
         jsonArray.add(convertArrayListObjectToJsonArray(list1));
+        listObj =  null;
+        obj = null;
         return jsonArray;
 
     }
@@ -178,6 +173,7 @@ public class JsonUtil {
             JsonElement ret = parser.parse(gson.toJson(d));
             jsonArray.add(ret);
         }
+        listObj =  null;
         return jsonArray;
 
     }
@@ -190,6 +186,7 @@ public class JsonUtil {
         JsonParser parser = new JsonParser();
         JsonElement je = parser.parse(gson.toJson(list0));
         jsonArray.add(je);
+        obj = null;
         return jsonArray;
 
     }
