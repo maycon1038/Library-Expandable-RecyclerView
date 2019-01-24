@@ -1,4 +1,4 @@
-package com.android.msm.mylibrarysearchable;
+package com.android.msm.exemplo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package com.android.msm.mylibrarysearchable;
+package com.android.msm.exemplo;
 
 public class animaisVO {
     private int rankig;

@@ -1,4 +1,4 @@
-package com.android.msm.mylibrarysearchable;
+package com.android.msm.exemplo;
 
 import android.database.Cursor;
 import android.util.Log;
