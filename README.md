@@ -1,4 +1,4 @@
-# Library-Searchable
+# RecyclerView
 Este projeto contém uma library que facilita a implementação do Searchable, RecyclerView e database SQlite 
 
 <img src="captura.gif" height="400" width="300" title="SampleRangeDatePicker">
@@ -14,7 +14,7 @@ Step 1. Adicione-o em sua raiz build.gradle no final dos repositórios:
 Step 2. Adicione as dependências de dependência
 
 	dependencies {
-	        implementation 'com.github.maycon1038:Library-Searchable-RecyclerView:Tag'
+	        implementation 'com.github.maycon1038:Library-Expandable-RecyclerView:2.0'
 	}
 Step 3. Crie o seu provider exemplo
 
@@ -36,18 +36,17 @@ Step 4. Em res> xml crie o arquivo searchable.xml  conforme exemplo abaixo
     android:searchSuggestAuthority="SeuPacote.SearchableProvider"
     android:searchSuggestSelection=" ?">
     </searchable>
-Step 4. Crie a Classe SearchableActivity e  implemente RecyclerViewOnClickListenerJson ou  RecyclerViewOnClickListenerCursor e MyFilter conforme exemplo
+Step 4. Crie a Classe SearchableActivity e  implements Adapters, RecyclerViewOnClickListener  conforme exemplo
 
     public class SearchableActivity extends AppCompatActivity
-            implements RecyclerViewOnClickListenerCursor,
-    MyFilter{
-        private RecyclerView mRecyclerView;
-        private Toolbar mToolbar;
-        private ArrayList<Integer> listID;
-        private ArrayList<String> ItensDatabase;
-        private SearchableFilter filter;
-        private Cursor cursor;
-       animaisDAO dao = new animaisDAO(this);
+        implements RecyclerViewOnClickListener,
+        Adapters {
+    animaisDAO dao = new animaisDAO(this);
+    private RecyclerView mRecyclerView;
+    private Toolbar mToolbar;
+    private ArrayList<Integer> listID;
+    private ArrayList<String> ItensDatabase;
+    private RecyclerAdapter myAdapter;
 
 
     @Override
@@ -59,7 +58,7 @@ Step 4. Crie a Classe SearchableActivity e  implemente RecyclerViewOnClickListen
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-             //seu RecyclerView
+
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         mRecyclerView.setHasFixedSize(true);
 
@@ -70,14 +69,14 @@ Step 4. Crie a Classe SearchableActivity e  implemente RecyclerViewOnClickListen
 
         listID = new ArrayList<>();
         ItensDatabase = new ArrayList<>();
-        //id do 
         listID.add(R.id.tv_id);
-         //nome do parametro do seu bd
         ItensDatabase.add("ranking");
         listID.add(R.id.tv_name);
         ItensDatabase.add("raca");
-        //passe os ids do seu model layout e o id do mesmo
-        filter = new SearchableFilter(this, R.layout.itens, listID, ItensDatabase);
+
+
+        AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
+                setCursor(dao.buscarTudo()).start(this);
         hendleSearch(getIntent());
 
     }
@@ -91,24 +90,8 @@ Step 4. Crie a Classe SearchableActivity e  implemente RecyclerViewOnClickListen
     public void hendleSearch(Intent intent) {
         if (Intent.ACTION_SEARCH.equalsIgnoreCase(intent.getAction())) {
             String q = intent.getStringExtra(SearchManager.QUERY);
-            cursor = dao.buscarStrings(q);
-            CoordinatorLayout clContainer = (CoordinatorLayout) findViewById(R.id.cl_container);
-            TextView tv = new TextView(this);
-            filter.initCursor(this,cursor);
-	    ou
-	    filter.initJson(this,JsonArray)
-            if(cursor == null){
-                tv.setText("Nenhum dado encontrado!");
-                tv.setTextColor(getResources().getColor(R.color.colorPrimarytext));
-                tv.setId(0);
-                tv.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-                tv.setGravity(Gravity.CENTER);
-                clContainer.addView(tv);
-            }else if (clContainer.findViewById(0) != null) {
-                clContainer.removeView(clContainer.findViewById(0));
 
-            }
-
+            myAdapter.filterData(q);
 
             SearchRecentSuggestions searchRecentSuggestions = new SearchRecentSuggestions(this,
                     SearchableProvider.AUTHORITY,
@@ -128,12 +111,7 @@ Step 4. Crie a Classe SearchableActivity e  implemente RecyclerViewOnClickListen
         searchView.setQueryHint(getResources().getString(R.string.search_hint));
         return true;
 
-        /*  getMenuInflater().inflate(R.menu.menu_main, menu);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem item = menu.findItem(R.id.action_searchable_activity);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setQueryHint(getResources().getString(R.string.search_hint));*/
+
     }
 
 
@@ -154,46 +132,44 @@ Step 4. Crie a Classe SearchableActivity e  implemente RecyclerViewOnClickListen
         return true;
     }
 
-    // LISTENERS
+
     @Override
-    public void onClickListener(View view, CursorAdapter cursorAdapter, int position) {
-        Cursor curso = (Cursor) cursorAdapter.getItem(position);
-        Toast.makeText(this, "Onclick...." +
-                curso.getString(3), Toast.LENGTH_SHORT).show();
+    public void seAdapter(RecyclerAdapter adapter) {
+        myAdapter = adapter;
+        mRecyclerView.setAdapter(myAdapter);
+        myAdapter.setRecyclerViewOnClickListenerJson(this);
     }
 
     @Override
-    public void onLongPressClickListener(View view, CursorAdapter cursorAdapter, int position) {
-        Cursor curso = (Cursor) cursorAdapter.getItem(position);
-        Toast.makeText(this, "OnLongClick...." +
-                curso.getString(3), Toast.LENGTH_SHORT).show();
-    }
+    public void seAdapter(ExpandableJsonAdapter adapter) {
 
+
+    }
 
 
     @Override
-    public void filter(MyRecyclerAdapter adapteRecycler) {
-
-        mRecyclerView.setAdapter(adapteRecycler);
-        adapteRecycler.setRecyclerViewOnClickListenerHack(this);
+    public void onClickListener(View view, JsonArray json, int position) {
+        //trabalhe no seu metodo
 
     }
 
+    @Override
+    public void onLongPressClickListener(View view, JsonArray json, int position) {
 
     }
+}
+
 
 Step 5. implemente na sua MainActivity conforme exemplo
    
-    public class MainActivity extends AppCompatActivity implements MyFilter, RecyclerViewOnClickListenerHack {
+    public class MainActivity extends AppCompatActivity implements Adapters, RecyclerViewOnClickListener {
+
     animaisDAO dao = new animaisDAO(this);
     private ArrayList<Integer> listID;
     private ArrayList<String> ItensDatabase;
-    private SearchableFilter filter;
-    private Cursor cursor;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
-    private AnimatorSet mAnimator;
-    private Object mBinding;
+    private RecyclerAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,18 +226,22 @@ Step 5. implemente na sua MainActivity conforme exemplo
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         mRecyclerView.setHasFixedSize(true);
-
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         listID = new ArrayList<>();
         ItensDatabase = new ArrayList<>();
         listID.add(R.id.tv_id);
         ItensDatabase.add("ranking");
         listID.add(R.id.tv_name);
         ItensDatabase.add("raca");
-        filter = new SearchableFilter(this, R.layout.itens, listID, ItensDatabase);
+
+        Cursor cursor = dao.buscarTudo();
+        AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
+                setCursor(cursor).start(this);
+
 
     }
 
@@ -278,8 +258,8 @@ Step 5. implemente na sua MainActivity conforme exemplo
     }
 
     public void hendleSearch() {
-        cursor = dao.buscarTudo();
-        filter.init(this, cursor);
+        //    filter.initJson(this,convertlist( getListAnimais()));
+
 
     }
 
@@ -300,11 +280,16 @@ Step 5. implemente na sua MainActivity conforme exemplo
     }
 
     @Override
-    public void filter(MyRecyclerAdapter adapteRecycler) {
-        mRecyclerView.setAdapter(adapteRecycler);
-        adapteRecycler.setRecyclerViewOnClickListenerHack(this);
+    public void seAdapter(RecyclerAdapter adapteRecycler) {
+        myAdapter = adapteRecycler;
+        mRecyclerView.setAdapter(myAdapter);
+        myAdapter.setRecyclerViewOnClickListenerJson(this);
     }
 
+    @Override
+    public void seAdapter(ExpandableJsonAdapter adapter) {
+
+    }
 
     @Override
     protected void onResume() {
@@ -312,20 +297,32 @@ Step 5. implemente na sua MainActivity conforme exemplo
         hendleSearch();
     }
 
-    @Override
-    public void onClickListener(View view, CursorAdapter cursorAdapter, int position) {
-        Cursor curso = (Cursor) cursorAdapter.getItem(position);
-        Toast.makeText(this, "Onclick...." +
-                curso.getString(3), Toast.LENGTH_SHORT).show();
+    public ArrayList<animais> getListAnimais() {
+        ArrayList<animais> list = new ArrayList<>();
+        animaisDAO dao = new animaisDAO(getBaseContext());
+        Cursor cl = dao.buscarTudo();  // buscando o curso de todas lotacoes
+        while (cl.moveToNext()) {
+            list.add(
+                    new animais(cl.getInt(1),
+                            cl.getString(3)));   //calcula a distancia  e adiciona na lista
+
+        }
+        cl.close();
+
+        return list;
     }
 
     @Override
-    public void onLongPressClickListener(View view, CursorAdapter cursorAdapter, int position) {
-        Cursor curso = (Cursor) cursorAdapter.getItem(position);
-        Toast.makeText(this, "OnLongClick...." +
-                curso.getString(3), Toast.LENGTH_SHORT).show();
+    public void onClickListener(View view, JsonArray json, int position) {
+        Toast.makeText(this, "Onclick...." +
+                json.get(position).getAsJsonObject().get("raca").toString(), Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onLongPressClickListener(View view, JsonArray json, int position) {
+
     }
+}
 
 Step 5. finalmente adicione o provider no seu manifest r conforme exemplo
 
