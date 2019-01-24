@@ -26,17 +26,14 @@ import com.google.gson.JsonArray;
 import java.util.ArrayList;
 
 
-
 public class SearchableActivity extends AppCompatActivity
         implements RecyclerViewOnClickListener,
         Adapters {
+    animaisDAO dao = new animaisDAO(this);
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
     private ArrayList<Integer> listID;
     private ArrayList<String> ItensDatabase;
-    private AdapterUtil filter;
-    private Cursor cursor;
-   animaisDAO dao = new animaisDAO(this);
     private RecyclerAdapter myAdapter;
 
 
@@ -64,11 +61,11 @@ public class SearchableActivity extends AppCompatActivity
         ItensDatabase.add("ranking");
         listID.add(R.id.tv_name);
         ItensDatabase.add("raca");
-     //   filter = new Adapters(this, R.layout.itens, listID, ItensDatabase);
+
 
         AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
                 setCursor(dao.buscarTudo()).start(this);
-       hendleSearch(getIntent());
+        hendleSearch(getIntent());
 
     }
 
@@ -82,21 +79,7 @@ public class SearchableActivity extends AppCompatActivity
         if (Intent.ACTION_SEARCH.equalsIgnoreCase(intent.getAction())) {
             String q = intent.getStringExtra(SearchManager.QUERY);
 
-           /* CoordinatorLayout clContainer = (CoordinatorLayout) findViewById(R.id.cl_container);
-            TextView tv = new TextView(this);*/
             myAdapter.filterData(q);
-          /*  if(cursor == null){
-                tv.setText("Nenhum dado encontrado!");
-                tv.setTextColor(getResources().getColor(R.color.colorPrimarytext));
-                tv.setId(0);
-                tv.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-                tv.setGravity(Gravity.CENTER);
-                clContainer.addView(tv);
-            }else if (clContainer.findViewById(0) != null) {
-                clContainer.removeView(clContainer.findViewById(0));
-
-            }*/
-
 
             SearchRecentSuggestions searchRecentSuggestions = new SearchRecentSuggestions(this,
                     SearchableProvider.AUTHORITY,
@@ -116,12 +99,7 @@ public class SearchableActivity extends AppCompatActivity
         searchView.setQueryHint(getResources().getString(R.string.search_hint));
         return true;
 
-        /*  getMenuInflater().inflate(R.menu.menu_main, menu);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem item = menu.findItem(R.id.action_searchable_activity);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setQueryHint(getResources().getString(R.string.search_hint));*/
+
     }
 
 
@@ -147,11 +125,11 @@ public class SearchableActivity extends AppCompatActivity
     public void seAdapter(RecyclerAdapter adapter) {
         myAdapter = adapter;
         mRecyclerView.setAdapter(myAdapter);
+        myAdapter.setRecyclerViewOnClickListenerJson(this);
     }
 
     @Override
     public void seAdapter(ExpandableJsonAdapter adapter) {
-
 
 
     }
@@ -159,6 +137,7 @@ public class SearchableActivity extends AppCompatActivity
 
     @Override
     public void onClickListener(View view, JsonArray json, int position) {
+        //trabalhe no seu metodo
 
     }
 

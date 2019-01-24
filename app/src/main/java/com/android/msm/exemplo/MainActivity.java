@@ -1,6 +1,5 @@
 package com.android.msm.exemplo;
 
-import android.animation.AnimatorSet;
 import android.app.SearchManager;
 import android.content.Context;
 import android.database.Cursor;
@@ -23,22 +22,15 @@ import com.android.msm.recycleviewexpandable.interfaces.Adapters;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
 import com.google.gson.JsonArray;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 
-public  class MainActivity extends AppCompatActivity implements Adapters, RecyclerViewOnClickListener {
+public class MainActivity extends AppCompatActivity implements Adapters, RecyclerViewOnClickListener {
 
     animaisDAO dao = new animaisDAO(this);
     private ArrayList<Integer> listID;
     private ArrayList<String> ItensDatabase;
-    private AdapterUtil filter;
-    private Cursor cursor;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
-    private AnimatorSet mAnimator;
-    private Object mBinding;
-    private JSONArray myJsonObject;
     private RecyclerAdapter myAdapter;
 
     @Override
@@ -108,10 +100,10 @@ public  class MainActivity extends AppCompatActivity implements Adapters, Recycl
         listID.add(R.id.tv_name);
         ItensDatabase.add("raca");
 
+        Cursor cursor = dao.buscarTudo();
         AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
-                setCursor(dao.buscarTudo()).start(this);
+                setCursor(cursor).start(this);
 
-      //  filter = new Adapters(this, R.layout.itens, listID, ItensDatabase);
 
     }
 
@@ -128,7 +120,7 @@ public  class MainActivity extends AppCompatActivity implements Adapters, Recycl
     }
 
     public void hendleSearch() {
-    //    filter.initJson(this,convertlist( getListAnimais()));
+        //    filter.initJson(this,convertlist( getListAnimais()));
 
 
     }
@@ -167,7 +159,7 @@ public  class MainActivity extends AppCompatActivity implements Adapters, Recycl
         hendleSearch();
     }
 
-    public  ArrayList<animais> getListAnimais() {
+    public ArrayList<animais> getListAnimais() {
         ArrayList<animais> list = new ArrayList<>();
         animaisDAO dao = new animaisDAO(getBaseContext());
         Cursor cl = dao.buscarTudo();  // buscando o curso de todas lotacoes
