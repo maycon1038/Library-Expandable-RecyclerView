@@ -16,11 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.android.msm.searchable.AdapterUtil;
-import com.android.msm.searchable.adapters.ExpandableJsonAdapter;
-import com.android.msm.searchable.adapters.RecyclerAdapter;
-import com.android.msm.searchable.interfaces.Adapters;
-import com.android.msm.searchable.interfaces.RecyclerViewOnClickListener;
+import com.android.msm.recycleviewexpandable.AdapterUtil;
+import com.android.msm.recycleviewexpandable.adapters.ExpandableJsonAdapter;
+import com.android.msm.recycleviewexpandable.adapters.RecyclerAdapter;
+import com.android.msm.recycleviewexpandable.interfaces.Adapters;
+import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;

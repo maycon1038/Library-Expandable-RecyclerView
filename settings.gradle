@@ -1,1 +1,1 @@
-include ':app', ':searchable'
+include ':app', ':recycleview&expandable'
