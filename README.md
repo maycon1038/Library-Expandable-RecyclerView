@@ -42,8 +42,20 @@ Step 3. implemente Adapters e o RecyclerViewOnClickListener
 
     }
 
+   Para filtrar dados use
+            
+	    myAdapter.filterData("string de busca");
+        
+   trabalhe o seu metodo onclick
+       
+       @Override
+        public void onClickListener(View view, JsonArray json, int position) {
+        JsonObject jso = json.get(position).getAsJsonObject();
+        caes cao = new caes(jso);
+	cao.getName();
+	}
    
-
+      
    
 
   
