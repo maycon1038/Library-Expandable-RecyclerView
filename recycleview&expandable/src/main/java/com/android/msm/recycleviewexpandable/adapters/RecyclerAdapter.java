@@ -22,9 +22,9 @@ import static com.android.msm.recycleviewexpandable.Util.Tag;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
 
-    static ArrayList<Integer> listID;
-    static ArrayList<Integer> listIDImg;
-    private static RecyclerViewOnClickListener mRecyclerViewOnClickListener;
+    private ArrayList<Integer> listID;
+    private ArrayList<Integer> listIDImg;
+    private  RecyclerViewOnClickListener mRecyclerViewOnClickListener;
     private ArrayList<String> nameItensDatabase;
     private ArrayList<String> nameItensDatabaseImgs;
     private Context mContext;
