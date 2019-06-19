@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -21,9 +23,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
     static ArrayList<Integer> listID;
+    static ArrayList<Integer> listIDImg;
     private static RecyclerViewOnClickListener mRecyclerViewOnClickListener;
-
     private ArrayList<String> nameItensDatabase;
+    private ArrayList<String> nameItensDatabaseImgs;
     private Context mContext;
     private LayoutInflater mInflater;
     private JsonArray jsonArray;
@@ -39,6 +42,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         listID = list_id;
         IdLayout = idLayout;
         nameItensDatabase = itensDatabase;
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public RecyclerAdapter(Context c, final int idLayout, JsonArray jsonArray, ArrayList<String> itensDatabase, ArrayList<Integer> list_id,
+                           ArrayList<String> itensDatabaseImg, ArrayList<Integer> listIdsImg) {
+        mContext = c;
+        this.jsonArray = new JsonArray();
+        this.jsonArray.addAll(jsonArray);
+        this.groupLinhaList = new JsonArray();
+        this.groupLinhaList.addAll(jsonArray);
+        listID = list_id;
+        IdLayout = idLayout;
+        listIDImg = listIdsImg;
+        nameItensDatabase = itensDatabase;
+        nameItensDatabaseImgs = itensDatabaseImg;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -86,7 +104,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public int getItemCount() {
 
 
-            return groupLinhaList.size();
+        return groupLinhaList.size();
 
     }
 
@@ -95,34 +113,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         // Passing the binding operation to cursor loader
         if (!groupLinhaList.isJsonNull()) {
             int index = 0;
+            for (ImageView imgview : holder.lisImgView) {
+                String url = String.valueOf(groupLinhaList.get(position).getAsJsonObject().get(nameItensDatabaseImgs.get(index++))).replace("\"", "");
+                Picasso.with(mContext).load(url).into(imgview);
+            }
             for (TextView v : holder.lisTextView) {
-                v.setText(
-                        String.valueOf(groupLinhaList.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
-
+                v.setText(String.valueOf(groupLinhaList.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
 
             }
         }
-
-
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Passing the inflater job to the cursor-adapter
         View view = mInflater.inflate(IdLayout, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         ArrayList<TextView> lisTextView = new ArrayList<>();
+        ArrayList<ImageView> lisImgView = new ArrayList<>();
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             for (int id : listID) {
                 lisTextView.add((TextView) itemView.findViewById(id));
             }
+            for (int id : listIDImg) {
+                lisImgView.add((ImageView) itemView.findViewById(id));
+            }
+
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
 
