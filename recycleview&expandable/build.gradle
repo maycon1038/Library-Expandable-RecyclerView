@@ -5,8 +5,6 @@ group='com.github.maycon1038'
 android {
     compileSdkVersion 28
 
-
-
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28

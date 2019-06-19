@@ -113,9 +113,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         // Passing the binding operation to cursor loader
         if (!groupLinhaList.isJsonNull()) {
             int index = 0;
+            if(holder.lisImgView != null){
             for (ImageView imgview : holder.lisImgView) {
-                String url = String.valueOf(groupLinhaList.get(position).getAsJsonObject().get(nameItensDatabaseImgs.get(index++))).replace("\"", "");
-                Picasso.with(mContext).load(url).into(imgview);
+                if(nameItensDatabaseImgs != null && nameItensDatabaseImgs.size() > 0) {
+                    String url = String.valueOf(groupLinhaList.get(position).getAsJsonObject().get(nameItensDatabaseImgs.get(index++))).replace("\"", "");
+                    Picasso.with(mContext).load(url).into(imgview);
+                }
+            }
             }
             for (TextView v : holder.lisTextView) {
                 v.setText(String.valueOf(groupLinhaList.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
@@ -142,8 +146,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             for (int id : listID) {
                 lisTextView.add((TextView) itemView.findViewById(id));
             }
-            for (int id : listIDImg) {
-                lisImgView.add((ImageView) itemView.findViewById(id));
+            if(listIDImg != null && listIDImg.size() > 0) {
+                for (int id : listIDImg) {
+                    lisImgView.add((ImageView) itemView.findViewById(id));
+                }
             }
 
             itemView.setOnClickListener(this);
