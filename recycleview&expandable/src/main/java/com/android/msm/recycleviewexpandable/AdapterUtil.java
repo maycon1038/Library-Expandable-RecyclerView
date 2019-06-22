@@ -30,6 +30,8 @@ public class AdapterUtil implements JsonConvert {
     private int idLayoutGroup, idLayoutChild;
     private ArrayList<Integer> listIdsGrup, listIdsfilho;
     private ArrayList<String> itensGrupo, itensChild;
+    private ArrayList<String> nameItensDatabaseImgs;
+    private ArrayList<Integer> listIDImg;
 
     private AdapterUtil(Context context, String name) {
         this.context = context;
@@ -95,6 +97,17 @@ public class AdapterUtil implements JsonConvert {
         return getDefault(context);
     }
 
+    public AdapterUtil configRecycleViewAdapter(int idLayout, ArrayList<Integer> listID, ArrayList<String> itensDatabase,
+                                                ArrayList<String> itensDatabaseImg, ArrayList<Integer> listIdsImg) {
+        this.listID = listID;
+        ItensDatabase = itensDatabase;
+        this.idLayout = idLayout;
+        this.nameItensDatabaseImgs = itensDatabaseImg;
+        this.listIDImg = listIdsImg;
+        isExpandableAdapter(false);
+        return getDefault(context);
+    }
+
     public AdapterUtil configExpandableAdapter(int idLayoutGroup, int idLayoutChild,
                                                ArrayList<Integer> listIdsGrup, ArrayList<Integer> listIdsfilho,
                                                ArrayList<String> itensGrupo, ArrayList<String> itensChild) {
@@ -130,8 +143,15 @@ public class AdapterUtil implements JsonConvert {
                     listIdsfilho, idLayoutChild, idLayoutGroup, itensChild, itensGrupo);
             myFilter.seAdapter(adapterExpandable);
         } else if (isConfigRecycleAdapter) {
-            adapteRecycler = new RecyclerAdapter(context, idLayout, json, ItensDatabase, listID);
-            myFilter.seAdapter(adapteRecycler);
+
+            if(this.nameItensDatabaseImgs != null && this.listIDImg != null){
+                adapteRecycler = new RecyclerAdapter(context, idLayout, json, ItensDatabase, listID,nameItensDatabaseImgs, listIDImg);
+                myFilter.seAdapter(adapteRecycler);
+            }else{
+                adapteRecycler = new RecyclerAdapter(context, idLayout, json, ItensDatabase, listID);
+                myFilter.seAdapter(adapteRecycler);
+            }
+
         }
 
     }
