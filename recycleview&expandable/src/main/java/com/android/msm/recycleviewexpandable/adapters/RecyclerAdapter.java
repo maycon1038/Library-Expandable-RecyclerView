@@ -121,6 +121,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 }
             }
             }
+              index = 0;
             for (TextView v : holder.lisTextView) {
                 v.setText(String.valueOf(groupLinhaList.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
 
