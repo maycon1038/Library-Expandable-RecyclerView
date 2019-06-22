@@ -1,6 +1,8 @@
 package com.android.msm.recycleviewexpandable.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static com.android.msm.recycleviewexpandable.Util.Tag;
@@ -117,7 +120,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             for (ImageView imgview : holder.lisImgView) {
                 if(nameItensDatabaseImgs != null && nameItensDatabaseImgs.size() > 0) {
                     String url = String.valueOf(groupLinhaList.get(position).getAsJsonObject().get(nameItensDatabaseImgs.get(index++))).replace("\"", "");
-                    Picasso.with(mContext).load(url).into(imgview);
+                    File imgFile = new File(url);
+                    if(imgFile.exists()){
+                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        imgview.setImageBitmap(myBitmap);
+                    }
                 }
             }
             }
