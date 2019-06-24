@@ -14,7 +14,6 @@ import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListe
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +34,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private JsonArray jsonArray;
     private JsonArray groupLinhaList;
     private int IdLayout;
+
+    ArrayList<TextView> lisTextView;
+
+    public ArrayList<TextView> getLisTextView() {
+        return lisTextView;
+    }
+
+
+
+    public ArrayList<ImageView> getLisImgView() {
+        return lisImgView;
+    }
+
+
+    ArrayList<ImageView> lisImgView;
 
     public RecyclerAdapter(Context c, final int idLayout, JsonArray jsonArray, ArrayList<String> itensDatabase, ArrayList<Integer> list_id) {
         mContext = c;
@@ -95,6 +109,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    public void setFilterJsonArray(JsonArray json) {
+
+        groupLinhaList = new JsonArray();
+
+        if (json != null && !json.isJsonNull()) {
+            groupLinhaList.addAll(jsonArray);
+            notifyDataSetChanged();
+        }
+    }
+
     private JsonArray getmJsonArray() {
         return groupLinhaList;
     }
@@ -105,8 +129,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-
-
         return groupLinhaList.size();
 
     }
@@ -114,6 +136,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // Passing the binding operation to cursor loader
+        this.lisImgView  = holder.lisImgView;
+        this.lisTextView  = holder.lisTextView;
+
         if (!groupLinhaList.isJsonNull()) {
             int index = 0;
             if(holder.lisImgView != null){
@@ -124,6 +149,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     if(imgFile.exists()){
                         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                         imgview.setImageBitmap(myBitmap);
+                    }else{
+                        imgview.setVisibility(View.GONE);
                     }
                 }
             }
