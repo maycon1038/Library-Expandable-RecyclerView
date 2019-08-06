@@ -5,4 +5,5 @@
     <string name="action_delete">Limpar histórico de pesquisa</string>
     <string name="action_searchable_activity">Pesquisar</string>
     <string name="search">Pesquisar</string>
+    <string name="action_delete_bg">Delete itens</string>
 </resources>

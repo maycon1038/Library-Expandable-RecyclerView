@@ -3,7 +3,6 @@ package com.android.msm.exemplo;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +16,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.msm.recycleviewexpandable.AdapterUtil;
-import com.android.msm.recycleviewexpandable.adapters.ExpandableJsonAdapter;
 import com.android.msm.recycleviewexpandable.adapters.RecyclerAdapter;
-import com.android.msm.recycleviewexpandable.interfaces.Adapters;
+import com.android.msm.recycleviewexpandable.interfaces.AdapterRecycleView;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
 import com.google.gson.JsonArray;
 
@@ -28,7 +26,7 @@ import java.util.ArrayList;
 
 public class SearchableActivity extends AppCompatActivity
         implements RecyclerViewOnClickListener,
-        Adapters {
+        AdapterRecycleView {
     animaisDAO dao = new animaisDAO(this);
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
@@ -64,7 +62,7 @@ public class SearchableActivity extends AppCompatActivity
 
 
         AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
-                setCursor(dao.buscarTudo()).start(this);
+                setCursor(dao.buscarTudo()).startRecycleViewAdapter(this);
         hendleSearch(getIntent());
 
     }
@@ -122,20 +120,6 @@ public class SearchableActivity extends AppCompatActivity
 
 
     @Override
-    public void seAdapter(RecyclerAdapter adapter) {
-        myAdapter = adapter;
-        mRecyclerView.setAdapter(myAdapter);
-        myAdapter.setRecyclerViewOnClickListenerJson(this);
-    }
-
-    @Override
-    public void seAdapter(ExpandableJsonAdapter adapter) {
-
-
-    }
-
-
-    @Override
     public void onClickListener(View view, JsonArray json, int position) {
         //trabalhe no seu metodo
 
@@ -144,5 +128,12 @@ public class SearchableActivity extends AppCompatActivity
     @Override
     public void onLongPressClickListener(View view, JsonArray json, int position) {
 
+    }
+
+    @Override
+    public void setRecyclerAdapter(RecyclerAdapter adapter) {
+        myAdapter = adapter;
+        mRecyclerView.setAdapter(myAdapter);
+        myAdapter.setRecyclerViewOnClickListenerJson(this);
     }
 }
