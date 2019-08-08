@@ -23,7 +23,13 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:design:28.0.0'
-    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    //bibliotecas de terceiroscardview
+    implementation 'com.koushikdutta.ion:ion:2.2.1'
+    //depois da versão 0.9 implemente somente com kothin
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    //trabalha com progrees circular
+    implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
     implementation project(':recycleview&expandable')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

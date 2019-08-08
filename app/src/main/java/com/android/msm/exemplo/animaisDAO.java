@@ -11,7 +11,7 @@ public class animaisDAO {
     private Context ctx;
     private String table_name = "animais";
     private String[] colunas = new String[]{
-            "_id", "ranking","especie", "raca"};
+            "_id", "ranking","especie", "raca","img"};
 
     public animaisDAO(Context ctx) {
         this.ctx = ctx;
@@ -22,6 +22,7 @@ public class animaisDAO {
         values.put("ranking", geo.getRankig());
         values.put("especie", geo.getEspecie());
         values.put("raca", geo.getRaca());
+        values.put("img", geo.getImg());
         if(db.insert(table_name, null, values) > 0){
             db.close();
             return true;

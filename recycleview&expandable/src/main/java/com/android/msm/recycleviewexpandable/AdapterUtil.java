@@ -37,6 +37,7 @@ public class AdapterUtil implements JsonConvert {
     private Integer idCheckBox;
     private Integer idCProg;
     private  Integer idImgView;
+    private Integer idRating;
 
     private AdapterUtil(Context context, String name) {
         this.context = context;
@@ -100,7 +101,20 @@ public class AdapterUtil implements JsonConvert {
         this.idLayout = idLayout;
         return getDefault(context);
     }
-    public AdapterUtil configRecycleViewAdapter(int idLayout, ArrayList<Integer> listID, ArrayList<String> itensDatabase, Integer idCheckBox, Integer idCProg, Integer idImgView) {
+    public AdapterUtil configRecycleViewAdapter(int idLayout, ArrayList<Integer> listID, ArrayList<String> itensDatabase,
+                                                Integer idCheckBox, Integer idCProg, Integer idImgView, Integer idRating) {
+        this.listID = listID;
+        ItensDatabase = itensDatabase;
+        this.idLayout = idLayout;
+        this.idCheckBox = idCheckBox;
+        this.idCProg = idCProg;
+        this.idCProg = idCProg;
+        this.idImgView = idImgView;
+        this.idRating = idRating;
+        return getDefault(context);
+    }
+    public AdapterUtil configRecycleViewAdapter(int idLayout, ArrayList<Integer> listID, ArrayList<String> itensDatabase,
+                                                Integer idCheckBox, Integer idCProg, Integer idImgView) {
         this.listID = listID;
         ItensDatabase = itensDatabase;
         this.idLayout = idLayout;
@@ -161,7 +175,7 @@ public class AdapterUtil implements JsonConvert {
     private void setRecycleViewAdapterCallback(AdapterRecycleView callback) {
         this.myFilterRecycleView = callback;
 
-        adapteRecycler = new RecyclerAdapter(context, idLayout, json, ItensDatabase, listID, idCheckBox,idCProg, idImgView);
+        adapteRecycler = new RecyclerAdapter(context, idLayout, json, listID, idCheckBox,idCProg, idImgView,idRating);
         myFilterRecycleView.setRecyclerAdapter(adapteRecycler);
 
 

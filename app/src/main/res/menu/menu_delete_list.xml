@@ -3,7 +3,11 @@
 
 
 
-
+    <item
+        android:id="@+id/acao_star"
+        android:icon="@android:drawable/star_on"
+        android:title="@string/action_star"
+        app:showAsAction="always" />
 
 
     <item
