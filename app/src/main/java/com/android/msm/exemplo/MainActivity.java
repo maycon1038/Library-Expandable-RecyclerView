@@ -309,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
 
     @Override
     public void onClickListener(View view, JsonArray json, int position) {
-        Log.d("JsonResult", json.get(position).getAsJsonObject().toString());
+        Log.d("JsonResultOnclick", json.get(position).getAsJsonObject().toString());
 
         if (mActionMode == null) {
 
@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
             myAdapter.setFilterJsonArray(json);
 
         }
-
+        jsonGroup = json;
 
     }
 
@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
             // lv.setItemChecked(position, true);
             //  atualizarItensMarcados(lv, position, checkBox);
         }
-
+        jsonGroup = json;
     }
 
     private void iniciarModoExclusao() {
@@ -369,13 +369,18 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        if (item.getItemId() == R.id.acao_delete) {
-            for (int i = 0; i < jsonGroup.size(); i++) {
-                if (jsonGroup.get(i).getAsJsonObject().get("checked").getAsBoolean()) {
-                    jsonGroup.remove(i);
 
+        if (item.getItemId() == R.id.acao_delete) {
+
+
+            for (int i = 0; i < jsonGroup.size(); i++) {
+                Log.d(" checked ",  jsonGroup.get(i).getAsJsonObject().toString());
+                while (jsonGroup.size() > 0 && jsonGroup.get(i).getAsJsonObject().get("checked").getAsBoolean()){
+                    jsonGroup.remove(i);
                 }
             }
+
+            myAdapter.setFilterJsonArray(jsonGroup);
 
         } else if (item.getItemId() == R.id.acao_star) {
 
@@ -388,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
                     }
                 }
             }
-
+            myAdapter.setFilterJsonArray(jsonGroup);
         } else if (item.getItemId() == R.id.action_checkable) {
             if (item.isChecked()) {
                 item.setChecked(false);
@@ -407,9 +412,9 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
                 }
 
             }
-
+            myAdapter.setFilterJsonArray(jsonGroup);
         }
-        myAdapter.setFilterJsonArray(jsonGroup);
+
         return true;
     }
 
