@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
     animaisDAO dao = new animaisDAO(this);
     ActionMode mActionMode;
     private ArrayList<Integer> listID;
-    private ArrayList<String> ItensDatabase;
     private RecyclerView mRecyclerView;
     private Toolbar mToolbar;
     private RecyclerAdapter myAdapter;
@@ -132,11 +131,8 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         listID = new ArrayList<>();
-        ItensDatabase = new ArrayList<>();
         listID.add(R.id.tv_id);
-        ItensDatabase.add("ranking");
         listID.add(R.id.tv_name);
-        ItensDatabase.add("raca");
 
         cProg = R.id.circleView_img_obj;
         ImgVeiw = R.id.imageObj;
@@ -162,13 +158,13 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
 //
 //        } else {
             if (jsonGroup.size() >= 1) {
-                AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase, R.id.idCheckedView, cProg, ImgVeiw, R.id.ratingBar).
+                AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, R.id.idCheckedView, cProg, ImgVeiw, R.id.ratingBar).
                         setJson(jsonGroup).startRecycleViewAdapter(this);
             } else {
                 Cursor cursor = dao.buscarTudo();
                 if (cursor != null && cursor.getCount() >= 1) {
                     jsonGroup = getJsonGroup(cursor);
-                    AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase, R.id.idCheckedView, cProg, ImgVeiw,  R.id.ratingBar).
+                    AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, R.id.idCheckedView, cProg, ImgVeiw,  R.id.ratingBar).
                             setJson(jsonGroup).startRecycleViewAdapter(this);
                 } else {
                     Toast.makeText(this, "nenhum dado encontrado", Toast.LENGTH_SHORT).show();

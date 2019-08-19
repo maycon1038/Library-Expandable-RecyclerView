@@ -61,7 +61,7 @@ public class SearchableActivity extends AppCompatActivity
         ItensDatabase.add("raca");
 
 
-        AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID, ItensDatabase).
+        AdapterUtil.with(this).configRecycleViewAdapter(R.layout.itens, listID).
                 setCursor(dao.buscarTudo()).startRecycleViewAdapter(this);
         hendleSearch(getIntent());
 
