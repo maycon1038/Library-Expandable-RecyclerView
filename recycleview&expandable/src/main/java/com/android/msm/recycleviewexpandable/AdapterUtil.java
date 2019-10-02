@@ -35,6 +35,7 @@ public class AdapterUtil implements JsonConvert {
     private Integer idCProg;
     private  Integer idImgView;
     private Integer idRating;
+    private Integer  idYoutube;
 
     private AdapterUtil(Context context, String name) {
         this.context = context;
@@ -107,6 +108,21 @@ public class AdapterUtil implements JsonConvert {
         this.idRating = idRating;
         return getDefault(context);
     }
+
+    public AdapterUtil configRecycleViewAdapter(int idLayout, ArrayList<Integer> listID,
+                                                Integer idCheckBox, Integer idCProg, Integer idImgView,
+                                                Integer idRating, Integer idYoutube) {
+        this.listID = listID;
+        this.idLayout = idLayout;
+        this.idCheckBox = idCheckBox;
+        this.idCProg = idCProg;
+        this.idCProg = idCProg;
+        this.idImgView = idImgView;
+        this.idRating = idRating;
+        this.idYoutube = idYoutube;
+        return getDefault(context);
+    }
+
     public AdapterUtil configRecycleViewAdapter(int idLayout, ArrayList<Integer> listID,
                                                 Integer idCheckBox, Integer idCProg, Integer idImgView) {
         this.listID = listID;
@@ -140,9 +156,17 @@ public class AdapterUtil implements JsonConvert {
 
     public AdapterUtil startRecycleViewAdapter(AdapterRecycleView callback) {
         AdapterUtil ini = getDefault(context);
-        ini.setRecycleViewAdapterCallback(callback);
+        if(idYoutube == null){
+            ini.setRecycleViewAdapterCallback(callback);
+        }else{
+            ini.setmRecycleViewAdapterCallback(callback);
+        }
+
         return ini;
     }
+
+
+
     public AdapterUtil startExpandableAdapter(AdapterExpandable callback) {
         AdapterUtil ini = getDefault(context);
         ini.setExpandableAdapterCallback(callback);
@@ -163,9 +187,17 @@ public class AdapterUtil implements JsonConvert {
         adapteRecycler = new RecyclerAdapter(context, idLayout, json, listID, idCheckBox,idCProg, idImgView,idRating);
         myFilterRecycleView.setRecyclerAdapter(adapteRecycler);
 
+    }
+
+    private void setmRecycleViewAdapterCallback(AdapterRecycleView callback) {
+        this.myFilterRecycleView = callback;
+        adapteRecycler = new RecyclerAdapter(context, idLayout, json, listID, idCheckBox,idCProg, idImgView,idRating, idYoutube);
+        myFilterRecycleView.setRecyclerAdapter(adapteRecycler);
+
 
 
     }
+
 
     @Override
     public void asJsonArray(JsonArray jsonArray) {
