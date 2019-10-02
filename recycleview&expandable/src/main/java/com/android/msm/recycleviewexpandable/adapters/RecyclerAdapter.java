@@ -16,9 +16,11 @@ import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnCircleProg
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnListTextView;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnRatingBar;
+import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewYoutube;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,6 +42,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private RecyclerViewOnCircleProgressView mRecyclerViewProgressView;
     private RecyclerViewOnCheckBox mRecyclerViewCheckBox;
     private RecyclerViewOnRatingBar mRecyclerViewRatingBar;
+    private RecyclerViewYoutube  mRecyclerViewYouTube;
     private RecyclerViewOnListTextView mRecyclerViewListTextView;
     private Context mContext;
     private LayoutInflater mInflater;
@@ -53,7 +56,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private ImageView mImgView;
     private CheckBox mcheckBox;
     private RatingBar mRatingBar;
-
+    private YouTubePlayerView mYouTubePlayerView;
+    private Integer iDyouTube;
     public RecyclerAdapter(Context c,  int idLayout, JsonArray jsonArray,  ArrayList<Integer> list_id) {
         mContext = c;
         this.jsonArray = new JsonArray();
@@ -83,6 +87,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+
+
+    public RecyclerAdapter(Context c,  int idLayout, JsonArray jsonArray,  ArrayList<Integer> list_id,
+                           Integer idCheckBox, Integer idCProg, Integer idImgView, Integer idRating, Integer iDyouTube) {
+        mContext = c;
+        this.jsonArray = new JsonArray();
+        this.jsonArray.addAll(jsonArray);
+        this.groupLinhaList = new JsonArray();
+        this.groupLinhaList.addAll(jsonArray);
+        listID = list_id;
+        IdLayout = idLayout;
+        this.idCheckBox = idCheckBox;
+        this.idCProg = idCProg;
+        this.idImgView = idImgView;
+        this.idRating = idRating;
+        this.iDyouTube = iDyouTube;
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
 
 
     public void filterData(String query) {
@@ -166,6 +188,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         this.lisTextView = holder.lisTextView;
         this.mcheckBox = holder.mCheckBox;
         this.mRatingBar = holder.mRatingBar;
+        this.mYouTubePlayerView = holder.mYouTubePlayerView;
 
         if (!groupLinhaList.isJsonNull()) {
 
@@ -188,6 +211,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     mRecyclerViewRatingBar.OnCheckBox(mRatingBar, getmJsonArray(), position);
                 }
             }
+            if (mYouTubePlayerView != null) {
+
+                if (mRecyclerViewYouTube != null) {
+                    mRecyclerViewYouTube.OnYouTubePlayerView(mYouTubePlayerView, getmJsonArray(), position);
+                }
+            }
 
             if (lisTextView != null) {
 
@@ -201,6 +230,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public void setRecyclerViewProgressView(RecyclerViewOnCircleProgressView r) {
         mRecyclerViewProgressView = r;
+    }
+
+    public void setmRecyclerViewYouTube(RecyclerViewYoutube y) {
+        mRecyclerViewYouTube = y;
     }
 
     public void setmRecyclerViewListTextView(RecyclerViewOnListTextView l) {
@@ -227,6 +260,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         public RatingBar mRatingBar;
         public CircleProgressView ciProView;
+        public YouTubePlayerView mYouTubePlayerView;
         public ImageView mImgView;
         public CheckBox mCheckBox;
         ArrayList<TextView> lisTextView = new ArrayList<>();
@@ -239,6 +273,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             }
             if (idCProg != null && idCProg > 0) {
                 ciProView = itemView.findViewById(idCProg);
+
+            }
+
+            if (iDyouTube != null && iDyouTube > 0) {
+                mYouTubePlayerView = itemView.findViewById(iDyouTube);
 
             }
 
