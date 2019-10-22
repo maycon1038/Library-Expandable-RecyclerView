@@ -29,14 +29,11 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
     private int childLayout, groupLayout;
     private mExpandableGroupViewOnListTextView mGroupViewListTextView;
     private mExpandableChildViewOnListTextView mChildViewListTextView;
-    private int themeText1, themeText2;
 
-    public ExpandableJsonAdapter(Context context, int themeText1, int themeText2, JsonArray jsonArray,
+    public ExpandableJsonAdapter(Context context, JsonArray jsonArray,
                                  ArrayList<Integer> groupTextView, ArrayList<Integer> childTextView,
                                  int childLayout, int groupLayout) {
         this.context = context;
-        this.themeText1 = themeText1;
-        this.themeText2 = themeText2;
         this.newJsonArray = new JsonArray();
         this.newJsonArray.addAll(jsonArray);
         this.jsonArray = new JsonArray();
@@ -103,10 +100,7 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
         ArrayList<TextView> listTextView = new ArrayList<>();
 
         for (int view : groupTextView) {
-
             TextView tv = v.findViewById(view);
-            tv.setTextAppearance(context, themeText1);
-
             listTextView.add(tv);
         }
 
@@ -139,10 +133,7 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
         ArrayList<TextView> listTextView = new ArrayList<>();
 
         for (int view : childTextView) {
-
             TextView tv = v.findViewById(view);
-            tv.setTextAppearance(context, themeText2);
-
             listTextView.add(tv);
         }
 

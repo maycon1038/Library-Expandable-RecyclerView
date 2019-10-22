@@ -34,7 +34,6 @@ public class AdapterUtil implements JsonConvert {
     private Integer idImgView;
     private Integer idRating;
     private Integer idYoutube;
-    private int themeText1 = R.style.Text_Title, themeText2 = R.style.Text_Subhead;
     private AdapterUtil(Context context, String name) {
         this.context = context;
         this.name = name;
@@ -167,7 +166,7 @@ public class AdapterUtil implements JsonConvert {
 
     private void setExpandableAdapterCallback(AdapterExpandable callback) {
         this.myFilterExpandable = callback;
-        adapterExpandable = new ExpandableJsonAdapter(context,themeText1,themeText2, json, listIdsGrup,
+        adapterExpandable = new ExpandableJsonAdapter(context, json, listIdsGrup,
                 listIdsfilho, idLayoutChild, idLayoutGroup);
         myFilterExpandable.setExpandableAdapter(adapterExpandable);
 
@@ -176,14 +175,14 @@ public class AdapterUtil implements JsonConvert {
     private void setRecycleViewAdapterCallback(AdapterRecycleView callback) {
         this.myFilterRecycleView = callback;
 
-        adapteRecycler = new RecyclerAdapter(context,themeText1,themeText2, idLayout, json, listID, idCheckBox, idCProg, idImgView, idRating);
+        adapteRecycler = new RecyclerAdapter(context, idLayout, json, listID, idCheckBox, idCProg, idImgView, idRating);
         myFilterRecycleView.setRecyclerAdapter(adapteRecycler);
 
     }
 
     private void setmRecycleViewAdapterCallback(AdapterRecycleView callback) {
         this.myFilterRecycleView = callback;
-        adapteRecycler = new RecyclerAdapter(context,themeText1,themeText2, idLayout, json, listID, idCheckBox, idCProg, idImgView, idRating, idYoutube);
+        adapteRecycler = new RecyclerAdapter(context, idLayout, json, listID, idCheckBox, idCProg, idImgView, idRating, idYoutube);
         myFilterRecycleView.setRecyclerAdapter(adapteRecycler);
 
 
@@ -195,11 +194,5 @@ public class AdapterUtil implements JsonConvert {
         this.json = jsonArray;
     }
 
-    public AdapterUtil configTheme(int themeText1, int themeText2) {
 
-        this.themeText1 = themeText1;
-        this.themeText2 = themeText2;
-        return getDefault(context);
-
-    }
 }

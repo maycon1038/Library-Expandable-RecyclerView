@@ -224,7 +224,7 @@ public class ExpandableActivity extends BaseActivity
 		 JsonArray jsArray2 = new JsonArray();
 		jsArray2.add(jsonArray);
 
-		AdapterUtil.with(this).configTheme(R.style.Text_Title, R.style.Text_Subhead).configExpandableAdapter(R.layout.pai_layout,
+		AdapterUtil.with(this).configExpandableAdapter(R.layout.pai_layout,
 				R.layout.model_tree_itens, listGroupID, listChildID).setJson(jsArray2).startExpandableAdapter(this);
 
 	}
