@@ -2,8 +2,6 @@ package com.android.msm.recycleviewexpandable;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 
 import com.android.msm.recycleviewexpandable.adapters.ExpandableJsonAdapter;
 import com.android.msm.recycleviewexpandable.adapters.RecyclerAdapter;
@@ -22,8 +20,8 @@ public class AdapterUtil implements JsonConvert {
     ArrayList<Integer> listID;
     private String name;
     private Context context;
-    private com.android.msm.recycleviewexpandable.interfaces.AdapterRecycleView myFilterRecycleView;
-    private com.android.msm.recycleviewexpandable.interfaces.AdapterExpandable myFilterExpandable;
+    private AdapterRecycleView myFilterRecycleView;
+    private AdapterExpandable myFilterExpandable;
     private RecyclerAdapter adapteRecycler;
     private ExpandableJsonAdapter adapterExpandable;
     private int idLayout;
@@ -33,10 +31,10 @@ public class AdapterUtil implements JsonConvert {
     private ArrayList<String> itensGrupo, itensChild;
     private Integer idCheckBox;
     private Integer idCProg;
-    private  Integer idImgView;
+    private Integer idImgView;
     private Integer idRating;
-    private Integer  idYoutube;
-
+    private Integer idYoutube;
+    private int themeText1 = R.style.Text_Title, themeText2 = R.style.Text_Subhead;
     private AdapterUtil(Context context, String name) {
         this.context = context;
         this.name = name;
@@ -97,6 +95,7 @@ public class AdapterUtil implements JsonConvert {
         this.idLayout = idLayout;
         return getDefault(context);
     }
+
     public AdapterUtil configRecycleViewAdapter(int idLayout, ArrayList<Integer> listID,
                                                 Integer idCheckBox, Integer idCProg, Integer idImgView, Integer idRating) {
         this.listID = listID;
@@ -135,36 +134,28 @@ public class AdapterUtil implements JsonConvert {
     }
 
 
-
-
     public AdapterUtil configExpandableAdapter(int idLayoutGroup, int idLayoutChild,
-                                               ArrayList<Integer> listIdsGrup, ArrayList<Integer> listIdsfilho,
-                                               ArrayList<String> itensGrupo, ArrayList<String> itensChild) {
+                                               ArrayList<Integer> listIdsGrup, ArrayList<Integer> listIdsfilho) {
         this.idLayoutGroup = idLayoutGroup;
         this.idLayoutChild = idLayoutChild;
         this.listIdsGrup = new ArrayList<Integer>();
         this.listIdsGrup = listIdsGrup;
         this.listIdsfilho = new ArrayList<Integer>();
         this.listIdsfilho = listIdsfilho;
-        this.itensGrupo = new ArrayList<String>();
-        this.itensGrupo = itensGrupo;
-        this.itensChild = new ArrayList<String>();
-        this.itensChild = itensChild;
         return getDefault(context);
     }
 
 
     public AdapterUtil startRecycleViewAdapter(AdapterRecycleView callback) {
         AdapterUtil ini = getDefault(context);
-        if(idYoutube == null){
+        if (idYoutube == null) {
             ini.setRecycleViewAdapterCallback(callback);
-        }else{
+        } else {
             ini.setmRecycleViewAdapterCallback(callback);
         }
 
         return ini;
     }
-
 
 
     public AdapterUtil startExpandableAdapter(AdapterExpandable callback) {
@@ -175,25 +166,25 @@ public class AdapterUtil implements JsonConvert {
 
 
     private void setExpandableAdapterCallback(AdapterExpandable callback) {
-        this.myFilterExpandable= callback;
-            adapterExpandable = new ExpandableJsonAdapter(context, json, listIdsGrup,
-            listIdsfilho, idLayoutChild, idLayoutGroup, itensChild, itensGrupo);
+        this.myFilterExpandable = callback;
+        adapterExpandable = new ExpandableJsonAdapter(context,themeText1,themeText2, json, listIdsGrup,
+                listIdsfilho, idLayoutChild, idLayoutGroup);
         myFilterExpandable.setExpandableAdapter(adapterExpandable);
 
     }
+
     private void setRecycleViewAdapterCallback(AdapterRecycleView callback) {
         this.myFilterRecycleView = callback;
 
-        adapteRecycler = new RecyclerAdapter(context, idLayout, json, listID, idCheckBox,idCProg, idImgView,idRating);
+        adapteRecycler = new RecyclerAdapter(context,themeText1,themeText2, idLayout, json, listID, idCheckBox, idCProg, idImgView, idRating);
         myFilterRecycleView.setRecyclerAdapter(adapteRecycler);
 
     }
 
     private void setmRecycleViewAdapterCallback(AdapterRecycleView callback) {
         this.myFilterRecycleView = callback;
-        adapteRecycler = new RecyclerAdapter(context, idLayout, json, listID, idCheckBox,idCProg, idImgView,idRating, idYoutube);
+        adapteRecycler = new RecyclerAdapter(context,themeText1,themeText2, idLayout, json, listID, idCheckBox, idCProg, idImgView, idRating, idYoutube);
         myFilterRecycleView.setRecyclerAdapter(adapteRecycler);
-
 
 
     }
@@ -202,5 +193,13 @@ public class AdapterUtil implements JsonConvert {
     @Override
     public void asJsonArray(JsonArray jsonArray) {
         this.json = jsonArray;
+    }
+
+    public AdapterUtil configTheme(int themeText1, int themeText2) {
+
+        this.themeText1 = themeText1;
+        this.themeText2 = themeText2;
+        return getDefault(context);
+
     }
 }

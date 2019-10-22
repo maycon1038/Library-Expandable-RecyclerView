@@ -1,5 +1,6 @@
 package com.android.msm.exemplo;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -65,7 +66,6 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
         ThemeUtil.setMyTheme(this, ThemeUtil.THEME_GREEN);
         setContentView(R.layout.activity_searchable);
         thema = getModeNightFromPreferences(MainActivity.this);
-        ThemeUtil.setMode(this, thema);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("Cães");
         setSupportActionBar(mToolbar);
@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
             dao.insert(vo);
         }
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
+        mRecyclerView =  findViewById(R.id.rv_list);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(RecyclerView.VERTICAL);
@@ -147,7 +147,14 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
             }
         });
 
+        findViewById(R.id.btn_start_expandable).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               startActivity(new Intent(MainActivity.this, ExpandableActivity.class));
+            }
+        });
 
+//btn_start_expandable
 
 //        Intent it = getIntent();
 //        if (it != null && it.getStringExtra(SearchManager.QUERY) != null) {
@@ -298,10 +305,6 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
             mActionMode = null;
         }
 
-        if (thema != getModeNightFromPreferences(this)) {
-            ThemeUtil.setMode(this, getModeNightFromPreferences(this));
-            recreate();
-        }
     }
 
 

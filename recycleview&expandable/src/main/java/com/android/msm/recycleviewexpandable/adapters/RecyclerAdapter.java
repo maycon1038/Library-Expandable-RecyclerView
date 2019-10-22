@@ -57,9 +57,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private CheckBox mcheckBox;
     private RatingBar mRatingBar;
     private YouTubePlayerView mYouTubePlayerView;
+    private int themeText1, themeText2;
     private Integer iDyouTube;
-    public RecyclerAdapter(Context c,  int idLayout, JsonArray jsonArray,  ArrayList<Integer> list_id) {
+    public RecyclerAdapter(Context c,int themeText1, int themeText2,  int idLayout, JsonArray jsonArray,  ArrayList<Integer> list_id) {
         mContext = c;
+        this.themeText1 = themeText1;
+        this.themeText2 = themeText2;
         this.jsonArray = new JsonArray();
         this.jsonArray.addAll(jsonArray);
         this.groupLinhaList = new JsonArray();
@@ -71,9 +74,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
 
-    public RecyclerAdapter(Context c,  int idLayout, JsonArray jsonArray,  ArrayList<Integer> list_id,
+    public RecyclerAdapter(Context c,int themeText1, int themeText2,  int idLayout, JsonArray jsonArray,  ArrayList<Integer> list_id,
                            Integer idCheckBox, Integer idCProg, Integer idImgView, Integer idRating) {
         mContext = c;
+        this.themeText1 = themeText1;
+        this.themeText2 = themeText2;
         this.jsonArray = new JsonArray();
         this.jsonArray.addAll(jsonArray);
         this.groupLinhaList = new JsonArray();
@@ -89,9 +94,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
 
-    public RecyclerAdapter(Context c,  int idLayout, JsonArray jsonArray,  ArrayList<Integer> list_id,
+    public RecyclerAdapter(Context c,int themeText1, int themeText2,  int idLayout, JsonArray jsonArray,  ArrayList<Integer> list_id,
                            Integer idCheckBox, Integer idCProg, Integer idImgView, Integer idRating, Integer iDyouTube) {
         mContext = c;
+        this.themeText1 = themeText1;
+        this.themeText2 = themeText2;
         this.jsonArray = new JsonArray();
         this.jsonArray.addAll(jsonArray);
         this.groupLinhaList = new JsonArray();
@@ -269,7 +276,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             for (int id : listID) {
-                lisTextView.add((TextView) itemView.findViewById(id));
+                TextView  tv =   itemView.findViewById(id);
+                tv.setTextAppearance(mContext,themeText1);
+                lisTextView.add(tv);
             }
             if (idCProg != null && idCProg > 0) {
                 ciProView = itemView.findViewById(idCProg);

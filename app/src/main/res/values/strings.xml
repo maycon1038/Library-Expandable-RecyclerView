@@ -7,4 +7,5 @@
     <string name="search">Pesquisar</string>
     <string name="action_delete_bg">Delete itens</string>
     <string name="action_star">Adicionar como favorito</string>
+    <string name="title_activity_expandable">ExpandableActivity</string>
 </resources>

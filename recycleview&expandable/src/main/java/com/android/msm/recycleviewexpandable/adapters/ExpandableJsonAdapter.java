@@ -1,17 +1,24 @@
 package com.android.msm.recycleviewexpandable.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.android.msm.recycleviewexpandable.R;
+import com.android.msm.recycleviewexpandable.interfaces.mExpandableChildViewOnListTextView;
+import com.android.msm.recycleviewexpandable.interfaces.mExpandableGroupViewOnListTextView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import static com.android.msm.recycleviewexpandable.Util.Tag;
 
@@ -22,15 +29,15 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
     private JsonArray originalList, groupLinhaList;
     private ArrayList<Integer> groupTextView, childTextView;
     private int childLayout, groupLayout;
-    private  ArrayList<String> itensChild;
-    private  ArrayList<String> itensGroup;
-
-
-    public ExpandableJsonAdapter(Context context, JsonArray originalList,
+    private mExpandableGroupViewOnListTextView mGroupViewListTextView;
+    private mExpandableChildViewOnListTextView mChildViewListTextView;
+    private int themeText1, themeText2;
+    public ExpandableJsonAdapter(Context context, int themeText1, int themeText2, JsonArray originalList,
                                  ArrayList<Integer> groupTextView, ArrayList<Integer> childTextView,
-                                 int childLayout, int groupLayout, ArrayList<String> itensChild, ArrayList<String> itensGroup) {
+                                 int childLayout, int groupLayout) {
         this.context = context;
-
+        this.themeText1 = themeText1;
+        this.themeText2 = themeText2;
         this.groupLinhaList = new JsonArray();
         this.groupLinhaList.addAll(originalList);
         this.originalList = new JsonArray();
@@ -43,11 +50,6 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
         this.childTextView = childTextView;
         this.groupLayout = groupLayout;
         this.childLayout = childLayout;
-        this.itensChild = new ArrayList<String>();
-        this.itensChild = itensChild;
-        this.itensGroup = new ArrayList<String>();
-        this.itensGroup = itensGroup;
-
 
     }
 
@@ -95,16 +97,34 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View v, ViewGroup parent) {
-        JsonObject parentRow = (JsonObject)getGroup(groupPosition);
-        LayoutInflater layoutInflater = (LayoutInflater)
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        JsonObject parentRow = (JsonObject) getGroup(groupPosition);
+        LayoutInflater layoutInflater = (LayoutInflater)  context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = layoutInflater.inflate(groupLayout, null);
-        int position = 0;
+
+        ArrayList<TextView> listTextView = new ArrayList<>();
+
+        for ( int view : groupTextView) {
+
+            TextView  tv = v.findViewById(view);
+            tv.setTextAppearance(context,themeText1);
+
+            listTextView.add(tv);
+        }
+
+
+      /*  int position = 0;
         for ( int view :groupTextView ) {
             ((TextView) v.findViewById(view)).setText(
                     String.valueOf(parentRow.get(itensGroup.get(position++))).replace("\"", "")
             );
 
+        }*/
+
+        if (groupTextView != null) {
+
+            if (mGroupViewListTextView != null) {
+                mGroupViewListTextView.OnGroupLisTextView(listTextView, parentRow);
+            }
         }
 
         return v;
@@ -114,15 +134,34 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View v, ViewGroup parent) {
         JsonObject childRow = (JsonObject) getChild(groupPosition, childPosition);
-        LayoutInflater layoutInflater = (LayoutInflater)
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = layoutInflater.inflate(childLayout, null);
-        int position = 0;
-        for ( int view :childTextView ) {
+
+        ArrayList<TextView> listTextView = new ArrayList<>();
+
+        for ( int view : childTextView) {
+
+            TextView  tv = v.findViewById(view);
+            tv.setTextAppearance(context, themeText2);
+
+            listTextView.add(tv);
+        }
+
+
+        if (childTextView != null) {
+
+            if (mChildViewListTextView != null) {
+                mChildViewListTextView.OnChildLisTextView(listTextView, childRow);
+            }
+        }
+
+
+
+     /*   for ( int view :childTextView ) {
             ((TextView) v.findViewById(view)).setText(
                     String.valueOf(childRow.get(itensChild.get(position++))).replace("\"", ""));
         }
-
+*/
 
 
         return v;
@@ -134,40 +173,62 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
     }
 
     public void filterData(String query) {
-        query = query.toLowerCase();
+
+        if(query != null){
+            query = query.toLowerCase();
+        }
+
         groupLinhaList = new JsonArray();
 
-        if (query.isEmpty()) {
+        if (query == null || query.isEmpty()) {
             groupLinhaList.addAll(originalList);
         } else {
             JsonArray newGroupList = new JsonArray();
-            //groupLinhaList.get(groupPosition).getAsJsonArray().get(0).getAsJsonObject()
-            //groupLinhaList.get(groupPosition).getAsJsonArray().get(1).getAsJsonArray().get(childPosition).getAsJsonObject()
-            for(JsonElement jsonElement : originalList) {
-                JsonObject jsonObject = jsonElement.getAsJsonArray().get(0).getAsJsonObject();
-                JsonArray jsonQuery = jsonElement.getAsJsonArray().get(1).getAsJsonArray();
-                JsonArray newChildList = new JsonArray();
-                for (JsonElement childRow : jsonQuery) {
-                    for (String value : itensChild) {
-                        if (String.valueOf(childRow.getAsJsonObject().get(value)).replace("\"", "").toLowerCase().contains(query)) {
+            //String.valueOf(jsonArray.get(position).getAsJsonObject().get(nameItensDatabase.get(index++))).replace("\"", ""));
 
-                            newChildList.add(childRow);
+            for (JsonElement jsonElement : originalList) {
+                //jsonArray.get(position).getAsJsonObject()
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+                Log.d("JsonKey ", jsonObject.toString());
+
+                Set<Map.Entry<String, JsonElement>> jsr = jsonObject.entrySet();
+
+                Iterator<Map.Entry<String, JsonElement>> jsi = jsr.iterator();
+
+                for (int i = 0; i < jsonObject.size(); i++) {
+                    if(jsi.hasNext()){
+                        Map.Entry<String, JsonElement> r = jsi.next();
+                        Log.d("JsonKey1 ", r.getValue().toString() + " q " + query);
+                        if (r.getValue().toString().replace("\"", "").toLowerCase().contains(query)) {
+                            Log.d("JsonKey2 ", jsonObject.toString());
+                            newGroupList.add(jsonObject);
                         }
+
                     }
                 }
-                if (newChildList.size() > 0) {
-                    newGroupList.add(jsonObject);
-                    newGroupList.add(newChildList);
-                    Tag(context, " groupLinhaList Teste" + groupLinhaList.toString());
-                }
+
+
+
             }
-            if(newGroupList.size() >0){
-                groupLinhaList.add(newGroupList);
+            if (newGroupList.size() > 0) {
+                groupLinhaList.addAll(newGroupList);
+                Tag(context, " groupLinhaList Teste" + groupLinhaList.toString());
             }
 
         } // end else
 
         notifyDataSetChanged();
+    }
+
+
+    public void setmGroupViewListTextView(mExpandableGroupViewOnListTextView l) {
+        mGroupViewListTextView = l;
+    }
+
+
+    public void setmChildViewListTextView(mExpandableChildViewOnListTextView l) {
+        mChildViewListTextView = l;
     }
 
 }
