@@ -7,7 +7,7 @@
         android:icon="@drawable/magnify"
         android:title="@string/action_searchable_activity"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
     <item
         android:id="@+id/action_delete"

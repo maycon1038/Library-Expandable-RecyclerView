@@ -1,18 +1,14 @@
 package com.android.msm.exemplo;
 
-import android.app.SearchManager;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -38,15 +34,18 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
+import com.msm.themes.BaseActivity;
+import com.msm.themes.ThemeUtil;
 
 import java.util.ArrayList;
 
 import at.grabner.circleprogress.CircleProgressView;
 
 import static com.android.msm.recycleviewexpandable.Util.carregarCircleProgressView;
+import static com.msm.themes.ThemeUtil.getModeNightFromPreferences;
 
 
-public class MainActivity extends AppCompatActivity implements AdapterRecycleView, RecyclerViewOnClickListener,
+public class MainActivity extends BaseActivity implements AdapterRecycleView, RecyclerViewOnClickListener,
         RecyclerViewOnCheckBox, ActionMode.Callback, RecyclerViewOnRatingBar, RecyclerViewOnListTextView, RecyclerViewOnCircleProgressView {
 
     private static JsonArray jsonGroup = new JsonArray();
@@ -59,12 +58,15 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
     private int checkedCount = 0;
     private Integer cProg;
     private Integer ImgVeiw;
-
+    private boolean thema;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeUtil.setMyTheme(this, ThemeUtil.THEME_GREEN);
         setContentView(R.layout.activity_searchable);
-        mToolbar = (Toolbar) findViewById(R.id.tb_main);
+        thema = getModeNightFromPreferences(MainActivity.this);
+        ThemeUtil.setMode(this, thema);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("Cães");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        llm.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -136,6 +138,15 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
 
         cProg = R.id.circleView_img_obj;
         ImgVeiw = R.id.imageObj;
+
+        findViewById(R.id.btn_themaModo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThemeUtil.setMode(MainActivity.this, !getModeNightFromPreferences(MainActivity.this));
+                recreate();
+            }
+        });
+
 
 
 //        Intent it = getIntent();
@@ -286,7 +297,13 @@ public class MainActivity extends AppCompatActivity implements AdapterRecycleVie
             mActionMode.finish();
             mActionMode = null;
         }
+
+        if (thema != getModeNightFromPreferences(this)) {
+            ThemeUtil.setMode(this, getModeNightFromPreferences(this));
+            recreate();
+        }
     }
+
 
     public ArrayList<animais> getListAnimais() {
         ArrayList<animais> list = new ArrayList<>();

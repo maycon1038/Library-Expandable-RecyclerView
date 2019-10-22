@@ -1,16 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginLeft="5dp"
     android:layout_marginTop="2dp"
     android:layout_marginRight="5dp"
     xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="2dp"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_main">
 
 
-<!-- android:visibility="gone"-->
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -48,53 +49,58 @@
 
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/linearRecy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin">
-
-        <CheckBox
-            android:id="@+id/idCheckedView"
-            android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:layout_height="match_parent"
-            android:checkMark="@android:layout/simple_list_item_multiple_choice"
-            />
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:theme="@style/AppTheme"
+    android:layout_height="wrap_content">
 
 
-        <TextView
-            android:id="@+id/tv_id"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="5"
-            android:hint=""
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            android:layout_weight="1"
-            android:hint=""
-            android:padding="1dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorPrimarytext" />
+            <CheckBox
+                android:id="@+id/idCheckedView"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:checkMark="@android:layout/simple_list_item_multiple_choice"
+                />
 
 
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:numStars="1"
-            android:rating="0.0" />
+            <TextView
+                android:id="@+id/tv_id"
+                style="@style/Text.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="5"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/Text.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:padding="1dp"/>
+
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:numStars="1"
+                android:rating="0.0" />
+
+        </LinearLayout>
+
+</androidx.cardview.widget.CardView>
 
 
 

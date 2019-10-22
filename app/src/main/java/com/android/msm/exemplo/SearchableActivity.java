@@ -5,11 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +21,12 @@ import com.android.msm.recycleviewexpandable.adapters.RecyclerAdapter;
 import com.android.msm.recycleviewexpandable.interfaces.AdapterRecycleView;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
 import com.google.gson.JsonArray;
+import com.msm.themes.BaseActivity;
 
 import java.util.ArrayList;
 
 
-public class SearchableActivity extends AppCompatActivity
+public class SearchableActivity extends BaseActivity
         implements RecyclerViewOnClickListener,
         AdapterRecycleView {
     animaisDAO dao = new animaisDAO(this);
@@ -39,17 +41,17 @@ public class SearchableActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
-        mToolbar = (Toolbar) findViewById(R.id.tb_main);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_list);
+        mRecyclerView =  findViewById(R.id.rv_list);
         mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        llm.setOrientation(RecyclerView.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
