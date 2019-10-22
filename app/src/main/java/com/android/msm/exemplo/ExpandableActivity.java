@@ -1,14 +1,17 @@
 package com.android.msm.exemplo;
 
 import android.app.Dialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,7 +31,7 @@ import java.util.ArrayList;
 import static com.msm.themes.util.Util.ProgressNotCancel;
 
 public class ExpandableActivity extends BaseActivity
-		implements SearchView.OnQueryTextListener, SearchView.OnCloseListener, JsonConvert, AdapterExpandable, mExpandableGroupViewOnListTextView, mExpandableChildViewOnListTextView {
+		implements  JsonConvert, AdapterExpandable, mExpandableGroupViewOnListTextView, mExpandableChildViewOnListTextView, SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
 	animaisDAO dao = new animaisDAO(this);
 	MaterialDialog pg;
@@ -157,18 +160,49 @@ public class ExpandableActivity extends BaseActivity
 		cursor.close();
 	}
 
+	private void expandAll() {
+		int count = listAdapter.getGroupCount();
+		for (int i = 0; i < count; i++) {
+			myExpandableListView.expandGroup(i);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+
+		getMenuInflater().inflate(R.menu.menu_expandable, menu);
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		android.widget.SearchView searchView;
+		MenuItem item = menu.findItem(R.id.action_search);
+		searchView = (android.widget.SearchView) item.getActionView();
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		searchView.setQueryHint(getResources().getString(R.string.search_hint));
+		searchView.setIconifiedByDefault(false);
+		searchView.setOnQueryTextListener(this);
+		searchView.setOnCloseListener(this);
+		searchView.requestFocus();
+
+		return true;
+	}
+
 	@Override
 	public boolean onClose() {
+		expandAll();
 		return false;
 	}
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
+		listAdapter.filterData(query);
+		expandAll();
 		return false;
 	}
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
+		listAdapter.filterData(newText);
+		expandAll();
 		return false;
 	}
 
@@ -214,4 +248,6 @@ public class ExpandableActivity extends BaseActivity
 		Log.d("testeJson ", " OnGroupLisTextView " + json.toString());
 
 	}
+
+
 }
