@@ -232,8 +232,9 @@ public class ExpandableActivity extends BaseActivity
 
 	@Override
 	public void OnChildLisTextView(ArrayList<TextView> lisTextViewChild, JsonObject json) {
-
+		lisTextViewChild.get(0).setTextAppearance(this,R.style.Text_Body1);
 		lisTextViewChild.get(0).setText(json.get("ranking").getAsString());
+		lisTextViewChild.get(1).setTextAppearance(this,R.style.Text_Body1);
 		lisTextViewChild.get(1).setText(json.get("raca").getAsString());
 
 		Log.d("testeJson ", " OnChildLisTextView " + json.toString());
@@ -242,7 +243,7 @@ public class ExpandableActivity extends BaseActivity
 
 	@Override
 	public void OnGroupLisTextView(ArrayList<TextView> lisTextViewGroup, JsonObject json) {
-
+		lisTextViewGroup.get(0).setTextAppearance(this,R.style.Text_Body2);
 		lisTextViewGroup.get(0).setText(json.get("raca").getAsString());
 
 		Log.d("testeJson ", " OnGroupLisTextView " + json.toString());

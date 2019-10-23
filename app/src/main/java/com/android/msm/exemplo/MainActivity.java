@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.msm.recycleviewexpandable.AdapterUtil;
+import com.android.msm.recycleviewexpandable.DividerItemDecoration;
 import com.android.msm.recycleviewexpandable.adapters.RecyclerAdapter;
 import com.android.msm.recycleviewexpandable.interfaces.AdapterRecycleView;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnCheckBox;
@@ -286,6 +287,7 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
     public void setRecyclerAdapter(RecyclerAdapter adapteRecycler) {
         myAdapter = adapteRecycler;
         mRecyclerView.setAdapter(myAdapter);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()));
         myAdapter.setRecyclerViewOnClickListenerJson(this);
         myAdapter.setmRecyclerViewCheckBox(this);
         myAdapter.setmRecyclerViewRatingBar(this);
