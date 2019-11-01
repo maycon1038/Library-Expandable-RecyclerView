@@ -192,7 +192,7 @@ public class ExpandableJsonAdapter extends BaseExpandableListAdapter {
                             if (r.getValue().toString().replace("\"", "").toLowerCase().contains(query)) {
 
                                 newChildList.add(childRow);
-
+                                break;
 
                             }
 

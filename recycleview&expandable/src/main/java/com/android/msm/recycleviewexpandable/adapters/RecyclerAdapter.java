@@ -140,6 +140,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     if (r.getValue().toString().replace("\"", "").toLowerCase().contains(query)) {
                         Log.d("JsonKey2 ", jsonObject.toString());
                         newGroupList.add(jsonObject);
+                        break;
                     }
 
                     }
