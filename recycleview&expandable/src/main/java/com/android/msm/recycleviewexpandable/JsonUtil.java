@@ -16,67 +16,70 @@ import java.util.HashMap;
 
 public class JsonUtil {
 
-    private static Cursor cursor;
-    private static Object obj;
-    private static ArrayList<Object> listObj;
+    private  Cursor cursor;
+    private  Object obj;
+    private  ArrayList<Object> listObj;
     private static HashMap<String, JsonUtil> instances = new HashMap<String, JsonUtil>();
     private String name;
     private JsonConvert json;
 
-    private JsonUtil(String name) {
+    public JsonUtil(String name) {
         this.name = name;
     }
+	public JsonUtil() {
+		this.name = "JsonUtil";
+	}
 
-    public static JsonUtil with() {
+    public JsonUtil with() {
         return getDefault();
     }
 
 
-    private static JsonUtil getDefault() {
+    private JsonUtil getDefault() {
         return getInstance("JsonUtil");
     }
 
 
-    private static JsonUtil getInstance(String name) {
+    private  JsonUtil getInstance(String name) {
         JsonUtil instance = instances.get(name);
         if (instance == null)
             instances.put(name, instance = new JsonUtil(name));
         return instance;
     }
 
-    public static JsonUtil setListObj(ArrayList<Object> listObj) {
+    public  JsonUtil setListObj(ArrayList<Object> listObj) {
         if (listObj == null) {
             throw new NullPointerException("O ArrayList<Object> não pode ser null");
         } else {
-            JsonUtil.listObj = listObj;
+            this.listObj = listObj;
             return with();
         }
 
     }
 
-    public static JsonUtil setListObjs(ArrayList<Object> listObj, Object obj) {
+    public  JsonUtil setListObjs(ArrayList<Object> listObj, Object obj) {
         if (listObj == null) {
             throw new NullPointerException("O ArrayList<Object> e o Object não pode ser null");
         } else {
-            JsonUtil.listObj = listObj;
-            JsonUtil.obj = obj;
+			this.listObj = listObj;
+			this.obj = obj;
             return with();
         }
 
     }
 
-    public static JsonUtil setCursor(Cursor cursor) {
+    public   JsonUtil setCursor(Cursor cursor) {
         if (cursor == null) {
             throw new NullPointerException("O Cursor não pode ser null");
         } else {
-            JsonUtil.cursor = cursor;
+			this.cursor = cursor;
             return with();
         }
 
     }
 
 
-    private static JsonArray convertArrayListObjectToJsonArray(ArrayList<Object> list) {
+    private   JsonArray convertArrayListObjectToJsonArray(ArrayList<Object> list) {
         JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
@@ -88,7 +91,7 @@ public class JsonUtil {
         return jsonArray;
     }
 
-    public static JsonArray cursorToJson(Cursor cursor) {
+    public   JsonArray cursorToJson(Cursor cursor) {
         JsonArray resultSet = new JsonArray();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -107,12 +110,12 @@ public class JsonUtil {
             cursor.moveToNext();
         }
         cursor.close();
-        JsonUtil.cursor = null;
+		this.cursor = null;
         return resultSet;
 
     }
 
-    public static ArrayList<Object> cursorToListObjs(Cursor cursor) {
+    public   ArrayList<Object> cursorToListObjs(Cursor cursor) {
         ArrayList<Object>  resultSet = new ArrayList<>() ;
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -131,16 +134,16 @@ public class JsonUtil {
             cursor.moveToNext();
         }
         cursor.close();
-        JsonUtil.cursor = null;
+		this.cursor = null;
         return resultSet;
 
     }
 
-    public  static JsonUtil setObj(Object obj) {
+    public    JsonUtil setObj(Object obj) {
         if (obj == null) {
             throw new NullPointerException("O Object não pode ser null");
         } else {
-            JsonUtil.obj = obj;
+			this.obj = obj;
             return with();
         }
     }
