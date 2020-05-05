@@ -155,8 +155,9 @@ public class ExpandableActivity extends BaseActivity
 			resultSet.add(rowObject);
 			cursor.moveToNext();
 		}
-		JsonUtil  jsUtil = new  JsonUtil();
-		jsUtil.setListObjs(resultSet, new animais(1,"Cao")).Convert(this);
+		JsonUtil  jsutil = new  JsonUtil();
+		jsutil.setListObjs(resultSet, new animais(1,"Cao"));
+		jsutil.setCallback(this);
 		cursor.close();
 	}
 
