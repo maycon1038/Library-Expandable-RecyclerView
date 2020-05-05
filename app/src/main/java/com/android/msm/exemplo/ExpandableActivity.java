@@ -155,9 +155,8 @@ public class ExpandableActivity extends BaseActivity
 			resultSet.add(rowObject);
 			cursor.moveToNext();
 		}
-		JsonUtil  jsutil = new  JsonUtil();
-		jsutil.setListObjs(resultSet, new animais(1,"Cao"));
-		jsutil.setCallback(this);
+
+		JsonUtil.setListObjs(resultSet, new animais(1,"Cao")).Convert(this);
 		cursor.close();
 	}
 
@@ -223,7 +222,8 @@ public class ExpandableActivity extends BaseActivity
 	public void asJsonArray(JsonArray jsonArray) {
 
 		 JsonArray jsArray2 = new JsonArray();
-		  jsArray2.add(jsonArray);
+		jsArray2.add(jsonArray);
+
 		AdapterUtil.with(this).configExpandableAdapter(R.layout.pai_layout,
 				R.layout.model_tree_itens, listGroupID, listChildID).setJson(jsArray2).startExpandableAdapter(this);
 

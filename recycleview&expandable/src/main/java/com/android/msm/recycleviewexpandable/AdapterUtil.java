@@ -34,12 +34,10 @@ public class AdapterUtil implements JsonConvert {
     private Integer idImgView;
     private Integer idRating;
     private Integer idYoutube;
-	private  JsonUtil jsutil;
-
     private AdapterUtil(Context context, String name) {
         this.context = context;
         this.name = name;
-		jsutil = new JsonUtil();
+
     }
 
     public AdapterUtil(int idLayout, ArrayList<Integer> listID, ArrayList<String> itensDatabase) {
@@ -72,26 +70,22 @@ public class AdapterUtil implements JsonConvert {
     }
 
     public AdapterUtil setObjects(ArrayList<Object> objects, Object object) {
-		jsutil.setListObjs(objects, object);
-		jsutil.setCallback(this);
+        JsonUtil.setListObjs(objects, object).Convert(this);
         return getDefault(context);
     }
 
     public AdapterUtil setCursor(Cursor cursor) {
-		jsutil.setCursor(cursor);
-		jsutil.setCallback(this);
+        JsonUtil.setCursor(cursor).Convert(this);
         return getDefault(context);
     }
 
     public AdapterUtil setObjects(Object object) {
-		jsutil.setObj(object);
-		jsutil.setCallback(this);
+        JsonUtil.setObj(object).Convert(this);
         return getDefault(context);
     }
 
     public AdapterUtil setObjects(ArrayList<Object> objects) {
-        jsutil.setListObj(objects);
-		jsutil.setCallback(this);
+        JsonUtil.setListObj(objects).Convert(this);
         return getDefault(context);
     }
 
