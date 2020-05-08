@@ -24,6 +24,7 @@ import com.google.gson.JsonArray;
 import com.msm.themes.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class SearchableActivity extends BaseActivity
@@ -44,7 +45,8 @@ public class SearchableActivity extends BaseActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         mRecyclerView =  findViewById(R.id.rv_list);

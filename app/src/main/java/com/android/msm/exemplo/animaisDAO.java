@@ -46,6 +46,12 @@ public class animaisDAO {
         }
         return c;
     }
+	public void deleteTudo() {
+		SQLiteDatabase db = new DBHelper(ctx).getWritableDatabase();
+
+	      db.delete(table_name, null,  null );
+
+	}
 
     public Cursor buscarStrings(String txt) {
         SQLiteDatabase db = new DBHelper(ctx).getWritableDatabase();

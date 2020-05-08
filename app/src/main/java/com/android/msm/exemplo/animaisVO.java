@@ -4,8 +4,38 @@ public class animaisVO {
     private int rankig;
     private  String especie;
     private String img;
+	private boolean checked = false;
+	private double ratingBar = 0.0;
 
-    public String getImg() {
+	public boolean isChecked() {
+		return checked;
+	}
+
+	@Override
+	public String toString() {
+		return "animaisVO{" +
+			"rankig=" + rankig +
+			", especie='" + especie + '\'' +
+			", img='" + img + '\'' +
+			", checked=" + checked +
+			", ratingBar=" + ratingBar +
+			", raca='" + raca + '\'' +
+			'}';
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
+	public double getRatingBar() {
+		return ratingBar;
+	}
+
+	public void setRatingBar(double ratingBar) {
+		this.ratingBar = ratingBar;
+	}
+
+	public String getImg() {
         return img;
     }
 
