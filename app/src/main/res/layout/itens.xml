@@ -1,22 +1,19 @@
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginLeft="15dp"
-    android:layout_marginTop="2dp"
-    android:theme="@style/AppTheme"
-    android:layout_marginRight="15dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginLeft="15dp"
+	android:layout_marginTop="2dp"
+	android:layout_marginRight="15dp"
 	android:orientation="vertical"
-    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto">
+	android:theme="@style/AppTheme">
 
 
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:id="@+id/image"
-        android:layout_height="wrap_content">
+	<FrameLayout
+		android:id="@+id/image"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center">
 
 		<ImageView
 			android:id="@+id/imageObj"
@@ -27,79 +24,77 @@
 			android:src="@android:drawable/ic_menu_report_image" />
 
 
-        <at.grabner.circleprogress.CircleProgressView
-            android:id="@+id/circleView_img_obj"
-            android:visibility="gone"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_margin="30dp"
-            CircleProgressView:cpv_autoTextSize="true"
-            CircleProgressView:cpv_barWidth="5dp"
-            CircleProgressView:cpv_innerContourSize="0dp"
-            CircleProgressView:cpv_maxValue="100"
-            CircleProgressView:cpv_outerContourSize="0dp"
-            CircleProgressView:cpv_rimWidth="9dp"
-            CircleProgressView:cpv_seekMode="true"
-            CircleProgressView:cpv_showTextInSpinningMode="true"
-            CircleProgressView:cpv_showUnit="false"
-            CircleProgressView:cpv_spin="true"
-            CircleProgressView:cpv_textMode="Text"
-            CircleProgressView:cpv_textScale="1"
-            CircleProgressView:cpv_unitPosition="right_top" />
+		<at.grabner.circleprogress.CircleProgressView
+			android:id="@+id/circleView_img_obj"
+			android:layout_width="30dp"
+			android:layout_height="30dp"
+			android:layout_gravity="center"
+			android:layout_margin="30dp"
+			android:visibility="gone"
+			CircleProgressView:cpv_autoTextSize="true"
+			CircleProgressView:cpv_barWidth="5dp"
+			CircleProgressView:cpv_innerContourSize="0dp"
+			CircleProgressView:cpv_maxValue="100"
+			CircleProgressView:cpv_outerContourSize="0dp"
+			CircleProgressView:cpv_rimWidth="9dp"
+			CircleProgressView:cpv_seekMode="true"
+			CircleProgressView:cpv_showTextInSpinningMode="true"
+			CircleProgressView:cpv_showUnit="false"
+			CircleProgressView:cpv_spin="true"
+			CircleProgressView:cpv_textMode="Text"
+			CircleProgressView:cpv_textScale="1"
+			CircleProgressView:cpv_unitPosition="right_top" />
 
-    </FrameLayout>
+	</FrameLayout>
 
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/idCheckedView"
-                android:layout_width="wrap_content"
-                android:visibility="gone"
-                android:layout_height="match_parent"
-                android:checkMark="@android:layout/simple_list_item_multiple_choice"
-                />
+	<androidx.cardview.widget.CardView
+		android:id="@+id/cardview"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
 
 
-            <TextView
-                android:id="@+id/tv_id"
-                style="@style/Text.Body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:layout_weight="5"/>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_name"
-                style="@style/Text.Body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:layout_weight="1"
-                android:padding="1dp"/>
+			<CheckBox
+				android:id="@+id/idCheckedView"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:checkMark="@android:layout/simple_list_item_multiple_choice"
+				android:visibility="gone" />
 
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:numStars="1"
-                android:rating="0.0" />
+			<TextView
+				android:id="@+id/tv_id"
+				style="@style/Text.Body2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="2dp"
+				android:layout_weight="5" />
 
-        </LinearLayout>
+			<TextView
+				android:id="@+id/tv_name"
+				style="@style/Text.Body2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="1dp"
+				android:layout_weight="1"
+				android:padding="1dp" />
 
-</androidx.cardview.widget.CardView>
 
+			<RatingBar
+				android:id="@+id/ratingBar"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:numStars="1"
+				android:rating="0.0" />
+
+		</LinearLayout>
+
+	</androidx.cardview.widget.CardView>
 
 
 </LinearLayout>

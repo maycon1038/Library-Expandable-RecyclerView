@@ -1,7 +1,9 @@
 package com.android.msm.exemplo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +31,7 @@ import com.android.msm.recycleviewexpandable.JsonUtil;
 import com.android.msm.recycleviewexpandable.adapters.RecyclerAdapter;
 import com.android.msm.recycleviewexpandable.interfaces.AdapterRecycleView;
 import com.android.msm.recycleviewexpandable.interfaces.JsonConvert;
+import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewCardView;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnCheckBox;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnCircleProgressView;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
@@ -47,12 +51,13 @@ import java.util.Objects;
 
 import at.grabner.circleprogress.CircleProgressView;
 
+import static com.android.msm.exemplo.R.color.cardview_dark_background;
 import static com.android.msm.recycleviewexpandable.Util.carregarCircleProgressView;
 import static com.msm.themes.ThemeUtil.getModeNightFromPreferences;
 
 
 public class MainActivity extends BaseActivity implements AdapterRecycleView, RecyclerViewOnClickListener,
-	RecyclerViewOnCheckBox, ActionMode.Callback, RecyclerViewOnRatingBar, RecyclerViewOnListTextView, RecyclerViewOnCircleProgressView, JsonConvert {
+	RecyclerViewOnCheckBox, ActionMode.Callback, RecyclerViewOnRatingBar, RecyclerViewOnListTextView, RecyclerViewOnCircleProgressView, JsonConvert, RecyclerViewCardView {
 
 	animaisDAO dao = new animaisDAO(this);
 	ActionMode mActionMode;
@@ -302,13 +307,15 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 
 		myAdapter = adapteRecycler;
 		mRecyclerView.setAdapter(myAdapter);
+		myAdapter.setCardViewId(R.id.cardview);
+
 		mRecyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()));
 		myAdapter.setRecyclerViewOnClickListenerJson(this);
 		myAdapter.setmRecyclerViewCheckBox(this);
 		myAdapter.setmRecyclerViewRatingBar(this);
 		myAdapter.setmRecyclerViewListTextView(this);
 		myAdapter.setRecyclerViewProgressView(this);
-
+		myAdapter.setmRecyclerViewCardView(this);
 	}
 
 	@Override
@@ -323,7 +330,6 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 		}
 
 	}
-
 
 	@Override
 	public void onClickListener(View view, JsonArray json, int position) {
@@ -495,6 +501,9 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 		lisTextView.get(0).setText(String.valueOf(position + 1));
 		lisTextView.get(1).setText(json.get(position).getAsJsonObject().get("raca").getAsString());
 
+		lisTextView.get(0).setTextAppearance(this, R.style.Text_Body2);
+		lisTextView.get(1).setTextAppearance(this, R.style.Text_Body2);
+
 	}
 
 	@Override
@@ -534,6 +543,18 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 
 	@Override
 	public void asJsonArray(JsonArray jsonArray) {
+
+	}
+
+	@Override
+	public void OnCardView(CardView cardView) {
+
+		        if(getModeNightFromPreferences( this) ){
+					cardView.setBackgroundColor(Color.parseColor("#FF424242"));
+				}else{
+					cardView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+				}
+	//	 cardView.setCardBackgroundColor(R.attr.materialCardViewStyle);
 
 	}
 }
