@@ -10,6 +10,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -177,8 +178,7 @@ public class JsonUtil {
 
         JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonElement je = parser.parse(gson.toJson(list0));
+		JsonElement je = gson.toJsonTree(list0);
         jsonArray.add(je);
         jsonArray.add(convertArrayListObjectToJsonArray(list1));
         listObj =  null;
@@ -191,10 +191,8 @@ public class JsonUtil {
 
         JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-
         for (Object d : list) {
-            JsonElement ret = parser.parse(gson.toJson(d));
+            JsonElement ret =   gson.toJsonTree(d);
             jsonArray.add(ret);
         }
         listObj =  null;
@@ -207,9 +205,8 @@ public class JsonUtil {
 
         JsonArray jsonArray = new JsonArray();
         Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonElement je = parser.parse(gson.toJson(list0));
-        jsonArray.add(je);
+        JsonElement je =   gson.toJsonTree(list0);
+		jsonArray.add(je);
         obj = null;
         return jsonArray;
 

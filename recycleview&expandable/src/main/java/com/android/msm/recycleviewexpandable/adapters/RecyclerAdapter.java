@@ -1,8 +1,6 @@
 package com.android.msm.recycleviewexpandable.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.msm.recycleviewexpandable.R;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewCardView;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnCheckBox;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnCircleProgressView;
@@ -36,7 +33,6 @@ import java.util.Set;
 import at.grabner.circleprogress.CircleProgressView;
 
 import static com.android.msm.recycleviewexpandable.Util.Tag;
-import static com.msm.themes.ThemeUtil.getModeNightFromPreferences;
 
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {

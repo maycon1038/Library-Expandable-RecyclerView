@@ -6,7 +6,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -26,12 +26,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.4'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.koushikdutta.ion:ion:2.2.1'
-    implementation 'com.github.maycon1038:LibraryThemes:2.0.0'
-   // implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.koushikdutta.ion:ion:3.0.9'
+    implementation 'com.github.maycon1038:LibraryThemes:2.0.2'
+	implementation 'androidx.recyclerview:recyclerview:1.1.0'
+	implementation 'androidx.cardview:cardview:1.0.0'
+	// implementation 'com.squareup.picasso:picasso:2.5.2'
 
 }

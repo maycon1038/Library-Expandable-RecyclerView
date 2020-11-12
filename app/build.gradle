@@ -16,20 +16,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
     //bibliotecas de terceiroscardview
-    implementation 'com.koushikdutta.ion:ion:2.2.1'
+    implementation 'com.koushikdutta.ion:ion:3.0.9'
     //depois da versão 0.9.6 implemente somente com kothin
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     //trabalha com progrees circular
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
     implementation project(':recycleview&expandable')
-    implementation 'com.github.maycon1038:LibraryThemes:2.0.0'
+    implementation 'com.github.maycon1038:LibraryThemes:2.0.2'
 }

@@ -509,9 +509,10 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 	@Override
 	public void OnCircleProgressoView(CircleProgressView circleProgressView, final ImageView imageView, JsonArray json, int position) {
 		final JsonObject jsonObject = json.get(position).getAsJsonObject();
-		Log.d("ResultJson ", jsonObject.toString());
+
 
 		if (jsonObject.has("img")) {
+			imageView.setImageResource(R.drawable.ic_baseline_broken_image_24);
 			final CircleProgressView progressor = carregarCircleProgressView(circleProgressView);
 			Ion.with(this).load(jsonObject.get("img").getAsString())
 				.progressHandler(new ProgressCallback() {
@@ -536,6 +537,8 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 				}
 
 			});
+		}else{
+			imageView.setImageResource(R.drawable.ic_baseline_image_24);
 		}
 
 
