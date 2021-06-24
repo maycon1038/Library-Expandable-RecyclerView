@@ -1,7 +1,6 @@
 package com.android.msm.exemplo;
 
 import lombok.Data;
-
 @Data
 public class animais {
     private int ranking;
