@@ -78,14 +78,9 @@ public class JsonUtil {
 
 
     private static JsonArray convertArrayListObjectToJsonArray(ArrayList<Object> list) {
-        JsonArray jsonArray = new JsonArray();
-        Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-
-        for (Object d : list) {
-            JsonElement ret = parser.parse(gson.toJson(d));
-            jsonArray.add(ret);
-        }
+		JsonElement listE = new Gson().toJsonTree(list, new TypeToken<ArrayList<Object>>() { }.getType());
+		JsonArray jsonArray = new JsonArray();
+		jsonArray.addAll(listE.getAsJsonArray());
         return jsonArray;
     }
 
@@ -113,29 +108,7 @@ public class JsonUtil {
 
     }
 
-    public static ArrayList<Object> cursorToListObjs(Cursor cursor) {
-        ArrayList<Object>  resultSet = new ArrayList<>() ;
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            int totalColumn = cursor.getColumnCount();
-            JsonObject rowObject = new JsonObject();
-            for (int i = 0; i < totalColumn; i++) {
-                if (cursor.getColumnName(i) != null) {
-                    try {
-                        rowObject.addProperty(cursor.getColumnName(i), cursor.getString(i));
-                    } catch (Exception e) {
-                        Log.d(" cursorToJson ", e.getMessage());
-                    }
-                }
-            }
-            resultSet.add(rowObject);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        JsonUtil.cursor = null;
-        return resultSet;
 
-    }
 
     public  static JsonUtil setObj(Object obj) {
         if (obj == null) {
@@ -177,8 +150,7 @@ public class JsonUtil {
     private JsonArray convertObjects(Object list0, ArrayList<Object> list1) {
 
         JsonArray jsonArray = new JsonArray();
-        Gson gson = new Gson();
-		JsonElement je = gson.toJsonTree(list0);
+		JsonElement je = new Gson().toJsonTree(list0);
         jsonArray.add(je);
         jsonArray.add(convertArrayListObjectToJsonArray(list1));
         listObj =  null;
@@ -189,23 +161,17 @@ public class JsonUtil {
 
     private JsonArray convertObjects(ArrayList<Object> list) {
 
-        JsonArray jsonArray = new JsonArray();
-        Gson gson = new Gson();
-        for (Object d : list) {
-            JsonElement ret =   gson.toJsonTree(d);
-            jsonArray.add(ret);
-        }
+		JsonElement listE = new Gson().toJsonTree(list, new TypeToken<ArrayList<Object>>() { }.getType());
+		JsonArray jsonArray = new JsonArray();
+		jsonArray.addAll(listE.getAsJsonArray());
         listObj =  null;
         return jsonArray;
 
     }
 
     private JsonArray convertObject(Object list0) {
-
-
         JsonArray jsonArray = new JsonArray();
-        Gson gson = new Gson();
-        JsonElement je =   gson.toJsonTree(list0);
+        JsonElement je =   new Gson().toJsonTree(list0);
 		jsonArray.add(je);
         obj = null;
         return jsonArray;

@@ -107,26 +107,13 @@ public class AdapterUtil implements JsonConvert {
         return getDefault(context);
     }
 
-    public AdapterUtil configRecycleViewAdapter(int idLayout, ArrayList<Integer> listID,
-                                                Integer idCheckBox, Integer idCProg, Integer idImgView,
-                                                Integer idRating, Integer idYoutube) {
-        this.listID = listID;
-        this.idLayout = idLayout;
-        this.idCheckBox = idCheckBox;
-        this.idCProg = idCProg;
-        this.idCProg = idCProg;
-        this.idImgView = idImgView;
-        this.idRating = idRating;
-        this.idYoutube = idYoutube;
-        return getDefault(context);
-    }
+
 
     public AdapterUtil configRecycleViewAdapter(int idLayout, ArrayList<Integer> listID,
                                                 Integer idCheckBox, Integer idCProg, Integer idImgView) {
         this.listID = listID;
         this.idLayout = idLayout;
         this.idCheckBox = idCheckBox;
-        this.idCProg = idCProg;
         this.idCProg = idCProg;
         this.idImgView = idImgView;
         return getDefault(context);

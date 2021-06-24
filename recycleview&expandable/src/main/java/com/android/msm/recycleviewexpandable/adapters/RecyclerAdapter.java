@@ -1,5 +1,6 @@
 package com.android.msm.recycleviewexpandable.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,11 +20,9 @@ import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnCircleProg
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnListTextView;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnRatingBar;
-import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewYoutube;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,7 +44,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 	private RecyclerViewOnCircleProgressView mRecyclerViewProgressView;
 	private RecyclerViewOnCheckBox mRecyclerViewCheckBox;
 	private RecyclerViewOnRatingBar mRecyclerViewRatingBar;
-	private RecyclerViewYoutube mRecyclerViewYouTube;
 	private RecyclerViewOnListTextView mRecyclerViewListTextView;
 	private Context mContext;
 	private LayoutInflater mInflater;
@@ -59,7 +57,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 	private ImageView mImgView;
 	private CheckBox mcheckBox;
 	private RatingBar mRatingBar;
-	private YouTubePlayerView mYouTubePlayerView;
 	private Integer iDyouTube;
 	private Integer cardViewId;
 	private CardView mCardView;
@@ -119,6 +116,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 	}
 
 
+	@SuppressLint("NotifyDataSetChanged")
 	public void filterData(String query) {
 
 		if (query != null) {
@@ -168,6 +166,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 		notifyDataSetChanged();
 	}
 
+	@SuppressLint("NotifyDataSetChanged")
 	public void setFilterJsonArray(JsonArray json) {
 
 		groupLinhaList = new JsonArray();
@@ -200,7 +199,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 		this.lisTextView = holder.lisTextView;
 		this.mcheckBox = holder.mCheckBox;
 		this.mRatingBar = holder.mRatingBar;
-		this.mYouTubePlayerView = holder.mYouTubePlayerView;
 		this.mCardView = holder.mCardView;
 
 		if (!groupLinhaList.isJsonNull()) {
@@ -224,12 +222,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 					mRecyclerViewRatingBar.OnCheckBox(mRatingBar, getmJsonArray(), position);
 				}
 			}
-			if (mYouTubePlayerView != null) {
 
-				if (mRecyclerViewYouTube != null) {
-					mRecyclerViewYouTube.OnYouTubePlayerView(mYouTubePlayerView, getmJsonArray(), position);
-				}
-			}
 
 			if (mCardView != null) {
 
@@ -256,10 +249,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 		mRecyclerViewCardView= c;
 	}
 
-	public void setmRecyclerViewYouTube(RecyclerViewYoutube y) {
-		mRecyclerViewYouTube = y;
-	}
-
 	public void setmRecyclerViewListTextView(RecyclerViewOnListTextView l) {
 		mRecyclerViewListTextView = l;
 	}
@@ -284,7 +273,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 		RatingBar mRatingBar;
 		CircleProgressView ciProView;
-		YouTubePlayerView mYouTubePlayerView;
 		ImageView mImgView;
 		CheckBox mCheckBox;
 		CardView mCardView;
@@ -308,10 +296,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 			}
 
-			if (iDyouTube != null && iDyouTube > 0) {
-				mYouTubePlayerView = itemView.findViewById(iDyouTube);
-
-			}
 
 			if (idImgView != null && idImgView > 0) {
 				mImgView = itemView.findViewById(idImgView);

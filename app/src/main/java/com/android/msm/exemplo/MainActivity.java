@@ -1,7 +1,12 @@
 package com.android.msm.exemplo;
 
+import static com.android.msm.recycleviewexpandable.Util.Tag;
+import static com.android.msm.recycleviewexpandable.Util.carregarCircleProgressView;
+import static com.msm.themes.ThemeUtil.getModeNightFromPreferences;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,8 +43,11 @@ import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListe
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnListTextView;
 import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnRatingBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
@@ -51,13 +59,9 @@ import java.util.Objects;
 
 import at.grabner.circleprogress.CircleProgressView;
 
-import static com.android.msm.exemplo.R.color.cardview_dark_background;
-import static com.android.msm.recycleviewexpandable.Util.carregarCircleProgressView;
-import static com.msm.themes.ThemeUtil.getModeNightFromPreferences;
-
 
 public class MainActivity extends BaseActivity implements AdapterRecycleView, RecyclerViewOnClickListener,
-	RecyclerViewOnCheckBox, ActionMode.Callback, RecyclerViewOnRatingBar, RecyclerViewOnListTextView, RecyclerViewOnCircleProgressView, JsonConvert, RecyclerViewCardView {
+	RecyclerViewOnCheckBox, ActionMode.Callback, RecyclerViewOnRatingBar, RecyclerViewOnListTextView, RecyclerViewOnCircleProgressView, RecyclerViewCardView {
 
 	animaisDAO dao = new animaisDAO(this);
 	ActionMode mActionMode;
@@ -73,7 +77,6 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 
 	private ArrayList<animaisVO> listVo;
 	private ArrayList<animaisVO> FistListVo;
-	private AdapterUtil myAdapterUtil;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +109,6 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 					});
 
 
-					//    ArrayList<Object> list =  new ArrayList<Object>(FistListVo);
-
-					//	myAdapterUtil.setObjects(list).startRecycleViewAdapter(MainActivity.this);
 
 				}
 			}
@@ -219,18 +219,27 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 		mRecyclerView = findViewById(R.id.rv_list);
 		mRecyclerView.setHasFixedSize(true);
 
-		myAdapterUtil = AdapterUtil.with(MainActivity.this).configRecycleViewAdapter(R.layout.itens, listID, R.id.idCheckedView, cProg, ImgVeiw, R.id.ratingBar);
+		jsonGroup = new JsonArray();
+		JsonElement element =  new Gson().toJsonTree(FistListVo, new TypeToken<ArrayList<animaisVO>>() { }.getType());
+		jsonGroup.addAll(element.getAsJsonArray());
 
-		ArrayList<Object> list =  new ArrayList<Object>(FistListVo);
+		AdapterUtil.with(MainActivity.this).setObjects(new ArrayList<Object>(FistListVo)).
+				configRecycleViewAdapter(R.layout.itens, listID, R.id.idCheckedView, cProg, ImgVeiw, R.id.ratingBar).
+		  startRecycleViewAdapter(MainActivity.this);
 
-
-		JsonUtil.setListObj(list).Convert(new JsonConvert() {
+	/*	JsonUtil.setCursor(dao.buscarTudo()).Convert(new JsonConvert() {
 			@Override
 			public void asJsonArray(JsonArray jsonArray) {
-				jsonGroup = jsonArray;
-				myAdapterUtil.setJson(jsonGroup).startRecycleViewAdapter(MainActivity.this);
+				Tag(MainActivity.this, new Throwable() +" jsonArray  " +  jsonArray.toString());
 			}
 		});
+
+		JsonUtil.setListObj(new ArrayList<Object>(FistListVo)).Convert(new JsonConvert() {
+			@Override
+			public void asJsonArray(JsonArray jsonArray) {
+				Tag(MainActivity.this, new Throwable() + " Object  " + jsonArray.toString());
+			}
+		});*/
 
 
 		LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -279,11 +288,7 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 		return true;
 	}
 
-	public void hendleSearch() {
-		//    filter.initJson(this,convertlist( getListAnimais()));
 
-
-	}
 
 
 	@Override
@@ -321,9 +326,7 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 	@Override
 	protected void onResume() {
 		super.onResume();
-		hendleSearch();
 		boolean consumed = (mActionMode != null);
-		//  ImageView checkBox = (ImageView)view.findViewById(R.id.checkBox);
 		if (consumed) {
 			mActionMode.finish();
 			mActionMode = null;
@@ -508,8 +511,8 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 
 	@Override
 	public void OnCircleProgressoView(CircleProgressView circleProgressView, final ImageView imageView, JsonArray json, int position) {
-		final JsonObject jsonObject = json.get(position).getAsJsonObject();
 
+		JsonObject jsonObject = json.get(position).getAsJsonObject();
 
 		if (jsonObject.has("img")) {
 			imageView.setImageResource(R.drawable.ic_baseline_broken_image_24);
@@ -544,10 +547,6 @@ public class MainActivity extends BaseActivity implements AdapterRecycleView, Re
 
 	}
 
-	@Override
-	public void asJsonArray(JsonArray jsonArray) {
-
-	}
 
 	@Override
 	public void OnCardView(CardView cardView) {
