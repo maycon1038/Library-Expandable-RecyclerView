@@ -1,6 +1,5 @@
 package com.example.expandablerecyclerview.interfaces;
 
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;

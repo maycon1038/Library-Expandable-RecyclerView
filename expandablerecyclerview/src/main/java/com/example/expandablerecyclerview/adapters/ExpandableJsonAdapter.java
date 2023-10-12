@@ -1,5 +1,7 @@
 package com.example.expandablerecyclerview.adapters;
 
+import static com.example.expandablerecyclerview.Util.Tag;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import static com.example.expandablerecyclerview.Util.Tag;
 
 
 public class ExpandableJsonAdapter extends BaseExpandableListAdapter {

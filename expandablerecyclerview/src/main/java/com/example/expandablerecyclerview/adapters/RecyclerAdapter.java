@@ -1,5 +1,7 @@
 package com.example.expandablerecyclerview.adapters;
 
+import static com.example.expandablerecyclerview.Util.Tag;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
@@ -30,8 +32,6 @@ import java.util.Map;
 import java.util.Set;
 
 import at.grabner.circleprogress.CircleProgressView;
-
-import static com.example.expandablerecyclerview.Util.Tag;
 
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {

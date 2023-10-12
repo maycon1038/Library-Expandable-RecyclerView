@@ -2,7 +2,6 @@ package com.example.expandablerecyclerview.interfaces;
 
 import android.widget.TextView;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;

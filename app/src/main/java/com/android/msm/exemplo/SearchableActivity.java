@@ -16,10 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.android.msm.recycleviewexpandable.AdapterUtil;
-import com.android.msm.recycleviewexpandable.adapters.RecyclerAdapter;
-import com.android.msm.recycleviewexpandable.interfaces.AdapterRecycleView;
-import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
+import com.example.expandablerecyclerview.AdapterUtil;
+import com.example.expandablerecyclerview.adapters.RecyclerAdapter;
+import com.example.expandablerecyclerview.interfaces.AdapterRecycleView;
+import com.example.expandablerecyclerview.interfaces.RecyclerViewOnClickListener;
 import com.google.gson.JsonArray;
 import com.msm.themes.BaseActivity;
 

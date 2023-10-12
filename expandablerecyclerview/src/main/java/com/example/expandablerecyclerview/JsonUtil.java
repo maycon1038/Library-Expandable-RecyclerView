@@ -3,13 +3,11 @@ package com.example.expandablerecyclerview;
 import android.database.Cursor;
 import android.util.Log;
 
-
 import com.example.expandablerecyclerview.interfaces.JsonConvert;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
