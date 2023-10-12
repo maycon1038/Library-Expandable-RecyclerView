@@ -1,21 +1,20 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdk 33
+    compileSdk 33 //permite o uso de APIs mais recentes, pode ser feito separadamente da atualização
     defaultConfig {
         applicationId "com.android.msm.mylibrarysearchable"
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdkVersion 23  //determina em quais dispositivos o aplicativo pode ser instalado
+        targetSdkVersion 33  //ativa o aplicativo para um novo comportamento de tempo de execução
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_18
-		targetCompatibility JavaVersion.VERSION_18
-	}
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_18
+        targetCompatibility JavaVersion.VERSION_18
+    }
 }
 
 dependencies {
