@@ -7,6 +7,8 @@ android {
         targetSdkVersion 33  //ativa o aplicativo para um novo comportamento de tempo de execução
         versionCode 1
         versionName "1.0"
+        multiDexEnabled = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_18
