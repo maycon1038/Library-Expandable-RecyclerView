@@ -1,7 +1,5 @@
 package com.android.msm.exemplo;
 
-import lombok.Data;
-@Data
 public class animais {
     private int ranking;
     private  String raca;
@@ -10,4 +8,19 @@ public class animais {
         this.raca = raca;
     }
 
+    public int getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+
+    public String getRaca() {
+        return raca;
+    }
+
+    public void setRaca(String raca) {
+        this.raca = raca;
+    }
 }
