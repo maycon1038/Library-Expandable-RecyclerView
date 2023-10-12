@@ -25,6 +25,8 @@ dependencies {
     implementation 'com.koushikdutta.ion:ion:3.1.0'
     //depois da versão 0.9.6 implemente somente com kothin
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    implementation 'org.jsoup:jsoup:1.16.1'
     //trabalha com progrees circular
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
 
