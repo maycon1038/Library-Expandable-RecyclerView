@@ -1,2 +1,2 @@
 include ':app'
-include ':recycleview&expandable'
+include ':recycleviewexpandable'
