@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdk 33 //permite o uso de APIs mais recentes, pode ser feito separadamente da atualização
+    compileSdk 35 //permite o uso de APIs mais recentes, pode ser feito separadamente da atualização
     defaultConfig {
         applicationId "com.android.msm.exemplo"
         minSdkVersion 23  //determina em quais dispositivos o aplicativo pode ser instalado
-        targetSdkVersion 33  //ativa o aplicativo para um novo comportamento de tempo de execução
+        targetSdkVersion 35  //ativa o aplicativo para um novo comportamento de tempo de execução
         versionCode 1
         versionName "1.0"
         multiDexEnabled = true
@@ -14,13 +14,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_18
         targetCompatibility JavaVersion.VERSION_18
     }
+    namespace 'com.android.msm.exemplo'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.9.0' //maxima versão para o sdk 33
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'com.google.android.material:material:1.12.0' //maxima versão para o sdk 33
     //bibliotecas de terceiroscardview
     implementation 'com.koushikdutta.ion:ion:3.1.0'
     //depois da versão 0.9.6 implemente somente com kothin
@@ -30,7 +31,7 @@ dependencies {
     //trabalha com progrees circular
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
 
-    implementation 'com.github.maycon1038:LibraryThemes:3.1.7'
+    implementation 'com.github.maycon1038:LibraryThemes:4.1.2'
 
     implementation project(':recycleviewexpandable')
 

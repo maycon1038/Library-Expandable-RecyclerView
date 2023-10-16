@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+group='com.github.maycon1038'
+android {
+    compileSdk 35
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 35
+    }
+    namespace 'com.android.msm.recycleviewexpandable'
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.jsoup:jsoup:1.16.1'
+    implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
+    implementation 'com.squareup.picasso:picasso:2.8'
+    implementation 'com.koushikdutta.ion:ion:3.1.0'
+    implementation 'com.github.maycon1038:LibraryThemes:4.1.1'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    // implementation 'com.squareup.picasso:picasso:2.5.2'
+}
