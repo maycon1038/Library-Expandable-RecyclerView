@@ -32,5 +32,5 @@ dependencies {
 
     implementation 'com.github.maycon1038:LibraryThemes:3.1.7'
 
-    implementation project(':expandablerecyclerview')
+    implementation project(':recycleview&expandable')
 }

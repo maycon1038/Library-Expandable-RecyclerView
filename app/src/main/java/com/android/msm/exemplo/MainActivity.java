@@ -1,7 +1,6 @@
 package com.android.msm.exemplo;
-
-import static com.example.expandablerecyclerview.Util.Tag;
-import static com.example.expandablerecyclerview.Util.carregarCircleProgressView;
+ 
+import static com.android.msm.recycleviewexpandable.Util.carregarCircleProgressView;
 import static com.msm.themes.ThemeUtil.getModeNightFromPreferences;
 
 import android.annotation.SuppressLint;
@@ -30,18 +29,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.expandablerecyclerview.AdapterUtil;
-import com.example.expandablerecyclerview.DividerItemDecoration;
-import com.example.expandablerecyclerview.JsonUtil;
-import com.example.expandablerecyclerview.adapters.RecyclerAdapter;
-import com.example.expandablerecyclerview.interfaces.AdapterRecycleView;
-import com.example.expandablerecyclerview.interfaces.JsonConvert;
-import com.example.expandablerecyclerview.interfaces.RecyclerViewCardView;
-import com.example.expandablerecyclerview.interfaces.RecyclerViewOnCheckBox;
-import com.example.expandablerecyclerview.interfaces.RecyclerViewOnCircleProgressView;
-import com.example.expandablerecyclerview.interfaces.RecyclerViewOnClickListener;
-import com.example.expandablerecyclerview.interfaces.RecyclerViewOnListTextView;
-import com.example.expandablerecyclerview.interfaces.RecyclerViewOnRatingBar;
+import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnCheckBox;
+import com.android.msm.recycleviewexpandable.AdapterUtil;
+import com.android.msm.recycleviewexpandable.DividerItemDecoration;
+import com.android.msm.recycleviewexpandable.JsonUtil;
+import com.android.msm.recycleviewexpandable.adapters.RecyclerAdapter;
+import com.android.msm.recycleviewexpandable.interfaces.AdapterRecycleView;
+import com.android.msm.recycleviewexpandable.interfaces.JsonConvert;
+import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewCardView; 
+import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnCircleProgressView;
+import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnClickListener;
+import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnListTextView;
+import com.android.msm.recycleviewexpandable.interfaces.RecyclerViewOnRatingBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -61,7 +60,7 @@ import at.grabner.circleprogress.CircleProgressView;
 
 
 public class MainActivity extends BaseActivity implements AdapterRecycleView, RecyclerViewOnClickListener,
-	RecyclerViewOnCheckBox, ActionMode.Callback, RecyclerViewOnRatingBar, RecyclerViewOnListTextView, RecyclerViewOnCircleProgressView, RecyclerViewCardView {
+		RecyclerViewOnCheckBox, ActionMode.Callback, RecyclerViewOnRatingBar, RecyclerViewOnListTextView, RecyclerViewOnCircleProgressView, RecyclerViewCardView {
 
 	animaisDAO dao = new animaisDAO(this);
 	ActionMode mActionMode;
