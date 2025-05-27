@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 group='com.github.maycon1038'
 apply plugin: 'maven-publish'
-version = '5.1.0' // A versão que você está tentando
 afterEvaluate {
     publishing {
         publications {
@@ -12,7 +11,7 @@ afterEvaluate {
 
                 groupId = 'com.github.maycon1038'
                 artifactId = 'recycleviewexpandable'
-                version = '1.0.0'
+                version = '5.1.1'
             }
         }
     }
