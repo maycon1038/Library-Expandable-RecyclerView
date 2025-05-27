@@ -1,26 +1,51 @@
 apply plugin: 'com.android.library'
 group='com.github.maycon1038'
+apply plugin: 'maven-publish'
+version = '5.1.0' // A versão que você está tentando
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // Configuração para versões mais antigas
+                artifact bundleReleaseAar
+                artifact sourcesJar // Opcional: inclui fontes
+
+                groupId = 'com.github.recycleviewexpandable'
+                artifactId = 'themes'
+                version = '1.0.0'
+            }
+        }
+    }
+}
+
+
+
 android {
-    compileSdk 33
+    compileSdk 35
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 33
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 35
     }
+    namespace 'com.android.msm.recycleviewexpandable'
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.jsoup:jsoup:1.16.1'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.koushikdutta.ion:ion:3.1.0'
-    implementation 'com.github.maycon1038:LibraryThemes:3.1.7'
-    implementation 'androidx.recyclerview:recyclerview:1.3.1'
+    implementation 'com.github.maycon1038:LibraryThemes:4.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     // implementation 'com.squareup.picasso:picasso:2.5.2'
+}
+
+// Tarefa sourcesJar deve estar no mesmo arquivo do módulo Android
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set('sources')
 }
