@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 group='com.github.maycon1038'
 apply plugin: 'maven-publish'
-version = '5.1.2' // A versão que você está tentando
 afterEvaluate {
     publishing {
         publications {
@@ -12,7 +11,7 @@ afterEvaluate {
 
                 groupId = 'com.github.maycon1038'
                 artifactId = 'recycleviewexpandable'
-                version = '5.1.2'
+                version = '5.2.0'
             }
         }
     }
@@ -33,6 +32,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.jsoup:jsoup:1.16.1'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
