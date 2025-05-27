@@ -10,8 +10,8 @@ afterEvaluate {
                 artifact bundleReleaseAar
                 artifact sourcesJar // Opcional: inclui fontes
 
-                groupId = 'com.github.recycleviewexpandable'
-                artifactId = 'themes'
+                groupId = 'com.github.maycon1038'
+                artifactId = 'recycleviewexpandable'
                 version = '1.0.0'
             }
         }
