@@ -10,18 +10,16 @@ android {
         multiDexEnabled = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_18
-        targetCompatibility JavaVersion.VERSION_18
-    }
     namespace 'com.android.msm.exemplo'
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'com.google.android.material:material:1.12.0' //maxima versão para o sdk 33
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.12.0'
     //bibliotecas de terceiroscardview
     implementation 'com.koushikdutta.ion:ion:3.1.0'
     //depois da versão 0.9.6 implemente somente com kothin
@@ -31,7 +29,7 @@ dependencies {
     //trabalha com progrees circular
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
 
-    implementation 'com.github.maycon1038:LibraryThemes:4.1.2'
+    implementation 'com.github.maycon1038:LibraryThemes:4.2.0'
 
     implementation project(':recycleviewexpandable')
 
