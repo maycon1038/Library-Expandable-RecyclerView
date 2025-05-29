@@ -40,7 +40,7 @@ dependencies {
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.koushikdutta.ion:ion:3.1.0'
-    implementation 'com.github.maycon1038:LibraryThemes:4.2.1'
+    implementation 'com.github.maycon1038:LibraryThemes:4.2.2'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     // implementation 'com.squareup.picasso:picasso:2.5.2'
 }
